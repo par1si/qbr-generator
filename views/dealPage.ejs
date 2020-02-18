@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Forecast App</title>
+</head>
+<body>
+        <h1><%= closedDeal.companyName %>, <%= closedDeal.termLength %> Year Deal at <%= closedDeal.ACV %>: </h1>
+        <!-- Loading Mongoose Entries -->
+            <div class="closed-deal" id="closed-deal">
+                <div class="closed-deal-name"> <p>Company Name = <%= closedDeal.companyName %></p> 
+                <div class="closed-deal-date"> <p> Closed On = <%= closedDeal.closedOn.toLocaleDateString().split('T')[0] %> </p></div>
+                <div class="closed-deal-body"> <p>Term Length = <%= closedDeal.termLength %></p> 
+                <p>ACV = <%= closedDeal.currentACV %></p>
+                <p>Multi Year Revenue = <%= closedDeal.multiYearRevenue %></p>
+                <p>Services Hours = <%= closedDeal.servicesHours %></p>
+                <form method="POST" action="/<%= closedDeal.id %>?_method=DELETE">
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                </form>
+                </div>
+</body>
+</html>
