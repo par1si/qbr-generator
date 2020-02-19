@@ -5,6 +5,10 @@ const closedDealSchema = new mongoose.Schema({
         type: 'string',
         required: true
     },
+    industry: {
+        type: 'string',
+        required: true
+    },
     termLength: {
         type: 'number',
         required: true
