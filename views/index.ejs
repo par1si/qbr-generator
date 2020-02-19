@@ -13,13 +13,12 @@
     <br>
     <br>
     <form method="post" action="/">
-        <% include partials/_form_fields %>
+        <%- include ('partials/_form_fields') %>
         <button type="submit">Submit</button>
     </form>
     <br>
     <br>
-    <h1>Your <%= closedDeals.length%> Deal(s) This Quarter:</h1>
-    <!-- Loading Mongoose Entries -->     
+    <h1>Your <%= closedDeals.length %> Deal(s) This Quarter:</h1>
            <% closedDeals.forEach(ClosedDeal => { %>
         <div class="closed-deals" id="closed-deals">
             <div class="closed-deal-name"><p>Company Name = <a href="/<%= ClosedDeal.id %>"><%= ClosedDeal.companyName %></a></p>
@@ -28,9 +27,8 @@
             <p>ACV = <%= ClosedDeal.ACV %></p>
             <p>Multi Year Revenue = <%= ClosedDeal.multiYearRevenue %></p>
             <p>Services Hours = <%= ClosedDeal.servicesHours %></p>
-            <!-- This is where the edit field will go. -->
-            <% include partials/editDeal %>
-            <% include partials/removeDeal %>
+            <%- include ('partials/editDeal') %>
+            <%- include ('partials/removeDeal') %>
             </div>
             <br>
             <br>
