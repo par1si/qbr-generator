@@ -1,0 +1,34 @@
+<label>Company Name:</label>
+    <input type="text" name="companyName" id="company-name" placeholder="e.g. Optimizely, Inc." value=<%= closedDeal.companyName %> >
+<br>
+<label>Closed On:</label>
+    <input type="date" name="closedOn" id="closed-on" placeholder="e.g. 2/15/2020" >
+<br>
+<label>Term Length in Years:</label>
+    <select class= "current-term-length" name= "termLength" id="current-term-length" value=<%= closedDeal.termLength %></select>>
+        <option value="1" name="termLength" selected>One Year</option>
+        <option value="2" name="termLength">Two Year</option>
+        <option value="3" name="termLength">Three Year</option>
+    </select>
+<br>
+<label>ACV:</label>
+    <input type="number" name="ACV" id="acv" placeholder="e.g. $100,000" value=<%= closedDeal.ACV %> >
+<br>
+<label>Revenue in Years 2+:</label>
+    <input type="number" name="multiYearRevenue" id="current-multi-year-revenue" placeholder="e.g. $100,000" value=<%= closedDeal.multiYearRevenue %> >
+<br>
+<label>Services Hours:</label>
+    <input type="number" name="servicesHours" id="current-services-hours" placeholder="e.g. 80" value=<%= closedDeal.servicesHours %>>
+<br>
+<label>Date That The Customer First Engaged with Optimizely:</label>
+    <input type="date" name="dateFirstEngaged" id="date-first-engaged" >
+<br>
+<label>Executive Involved:</label>
+    <select class= "executive-involved" name= "executiveInvolved" id="executive-involved" value=<%= closedDeal.executiveInvolved %></select>>
+            <option value="Yes" name="executiveInvolved" selected>Yes</option>
+            <option value="No" name="executiveInvolved">No</option>
+    </select>
+<br>
+<label>Main Competitor:</label>
+    <input type="text" name="mainCompetitor" id="main-competitor" placeholder="VWO" value=<%= closedDeal.mainCompetitor %>>
+<br>

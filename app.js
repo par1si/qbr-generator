@@ -7,13 +7,16 @@ const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const port = 3000;
 
-app.use(bodyParser.urlencoded({ extended: false }));
 
+// Defining Routes
+const indexRouter = require('./routes/index');
 
 // View Engine, Parsing Form Entries & Static File Directory
 app.set('view engine', 'ejs');
+app.set('views', process.cwd() + '/views')
 app.use(express.static('public'));
 app.use(methodOverride('_method'));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Defining DB connection
 const db = mongoose.connection;
@@ -22,8 +25,7 @@ db.once('open', function() {
     console.log(`Database connected!`)
 });
 
-// Routes
-const indexRouter = require('./routes/index');
+// Using Routes
 app.use('/', indexRouter);
 
 // Starting the server
