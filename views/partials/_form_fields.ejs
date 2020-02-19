@@ -1,15 +1,38 @@
 <label>Company Name:</label>
     <input type="text" name="companyName" id="company-name" placeholder="e.g. Optimizely, Inc." value=<%= closedDeal.companyName %> >
 <br>
+<label>Quarter Closed:</label>
+    <select class="quarter-closed" name= "fiscalQuarterClosed" id="quarter-closed" value=<%= closedDeal.dealType %>>
+        <option value="Q1" name="fiscalQuarterClosed" >Q1</option>
+        <option value="Q2" name="fiscalQuarterClosed" >Q2</option>
+        <option value="Q3" name="fiscalQuarterClosed" >Q3</option>
+        <option value="Q4" name="fiscalQuarterClosed" >Q4</option>
+    </select>
+<br>
+<label>Deal Type:</label>
+    <select class="deal-type" name= "dealType" id="deal-type" value=<%= closedDeal.dealType %>>
+        <option value="New" name="dealType" >New</option>
+        <option value="Horizontal Expansion" name="dealType" >Horizontal Expansion</option>
+        <option value="Vertical Expansion" name="dealType" >Vertical Expansion</option>
+    </select>
+<br>
 <label>Industry:</label>
-    <input type="text" name="industry" id="industry" placeholder="e.g. Retail" value=<%= closedDeal.industry %> >
+    <select class= "industry" name= "industry" id="industry" value=<%= closedDeal.indusry %>>
+        <option value="B2B Software" name="industry" >B2B Software</option>
+        <option value="FinServ" name="industry" >FinServ</option>
+        <option value="Media" name="industry" >Media</option>
+        <option value="B2C Software" name="industry" >B2C Software</option>
+        <option value="Travel" name="industry" >Travel</option>
+        <option value="EdTech" name="industry" >EdTech</option>
+        <option value="Other" name="industry" >Other</option>
+    </select>
 <br>
 <label>Closed On:</label>
     <input type="date" name="closedOn" id="closed-on" placeholder="e.g. 2/15/2020" >
 <br>
 <label>Term Length in Years:</label>
-    <select class= "current-term-length" name= "termLength" id="current-term-length" value=<%= closedDeal.termLength %></select>>
-        <option value="1" name="termLength" selected>One Year</option>
+    <select class= "current-term-length" name= "termLength" id="current-term-length" value=<%= closedDeal.termLength %>>
+        <option value="1" name="termLength" >One Year</option>
         <option value="2" name="termLength">Two Year</option>
         <option value="3" name="termLength">Three Year</option>
     </select>

@@ -47,6 +47,9 @@ router.put('/:id', async (req, res) => {
   try {
     closedDeal = await ClosedDeal.findById(req.params.id)
       closedDeal.companyName = req.body.companyName
+      closedDeal.fiscalQuarterClosed = req.body.fiscalQuarterClosed
+      closedDeal.industry = req.body.industry
+      closedDeal.dealType = req.body.dealType
       closedDeal.termLength = req.body.termLength
       closedDeal.ACV = req.body.ACV
       closedDeal.multiYearRevenue = req.body.multiYearRevenue
@@ -71,12 +74,13 @@ router.delete('/:id', async (req, res) => {
   try {
     closedDeal = await ClosedDeal.findById(req.params.id)
     await closedDeal.remove()
-    res.send('deal removed.')
+    res.redirect('/')
   } catch {
     if (closedDeal == null) {
-      res.send('failed to remove, deal doesnt exist.')
+      res.redirect('/')
+      console.log('Deal does not exist.')
     } else {
-      res.send(`something went wrong`)
+      res.send(`Something went wrong.`)
     }
   }
 });

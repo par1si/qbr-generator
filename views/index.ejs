@@ -7,17 +7,11 @@
     <title>Forecast Helper</title>
 </head>
 <body>
-    <h1>This is going to be a forecast helper app.</h1>
-    <br>
-    <h1>Submit a deal here:</h1>
-    <br>
-    <br>
+    <h1>Submit a Closed-Won deal here:</h1>
     <form method="post" action="/">
         <%- include ('partials/_form_fields') -%>
         <button type="submit">Submit</button>
     </form>
-    <br>
-    <br>
     <h1>Your <%= closedDeals.length %> Deal(s) This Quarter:</h1>
            <% closedDeals.forEach(ClosedDeal => { %>
         <div class="closed-deals" id="closed-deals">
@@ -27,14 +21,12 @@
             <p>ACV = <%= ClosedDeal.ACV %></p>
             <p>Multi Year Revenue = <%= ClosedDeal.multiYearRevenue %></p>
             <p>Services Hours = <%= ClosedDeal.servicesHours %></p>
+            <p>Quarter Closed = <%= ClosedDeal.fiscalQuarterClosed %></p>
             </div>
-            <br>
-            <br>
-                </div> 
+        </div> 
     <% }) %>
         <div>
             <h1>Total Attainment:</h1>
-        </div>
-        
+        </div>        
 </body>
 </html>

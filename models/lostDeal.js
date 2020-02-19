@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const closedDealSchema = new mongoose.Schema({
+const lostDealSchema = new mongoose.Schema({
     companyName: {
         type: 'string',
         required: true
@@ -16,19 +16,6 @@ const closedDealSchema = new mongoose.Schema({
     ACV: {
         type: 'number',
         required: true
-    },
-    multiYearRevenue: {
-        type: 'number',
-        required: true
-    },
-    servicesHours: {
-        type: 'number',
-        required: true
-    },
-    closedOn: { 
-        type: Date, 
-        required: true, 
-        default: Date.now 
     },
     dateFirstEngaged: {
         type: Date,
@@ -48,14 +35,8 @@ const closedDealSchema = new mongoose.Schema({
     },
     revenueBooked: {
         type: 'Boolean',
-        default: true
-    },
-    fiscalQuarterClosed: {
-        type: 'String',
-        required: true
+        default: false
     }
 });
 
-
-
-module.exports = mongoose.model('closedDeal', closedDealSchema)
+module.exports = mongoose.model('lostDeal', lostDealSchema)
