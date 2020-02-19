@@ -13,7 +13,7 @@
     <br>
     <br>
     <form method="post" action="/">
-        <%- include ('partials/_form_fields') %>
+        <%- include ('partials/_form_fields') -%>
         <button type="submit">Submit</button>
     </form>
     <br>
@@ -27,8 +27,6 @@
             <p>ACV = <%= ClosedDeal.ACV %></p>
             <p>Multi Year Revenue = <%= ClosedDeal.multiYearRevenue %></p>
             <p>Services Hours = <%= ClosedDeal.servicesHours %></p>
-            <%- include ('partials/editDeal') %>
-            <%- include ('partials/removeDeal') %>
             </div>
             <br>
             <br>

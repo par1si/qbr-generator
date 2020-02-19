@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 // GET route for :id parameter
 router.get('/:id', async (req, res) => {
   try {
-    let closedDeal = await ClosedDeal.findById(req.params.id)
+    const closedDeal = await ClosedDeal.findById(req.params.id)
     res.render('dealPage.ejs', {
       closedDeal: closedDeal
     })

@@ -17,9 +17,8 @@
             <p>Multi Year Revenue = <%= closedDeal.multiYearRevenue %></p>
             <p>Services Hours = <%= closedDeal.servicesHours %></p>
             <!-- This is where the edit field will go. -->
-            <form method="POST" action="/<%= closedDeal.id %>?_method=DELETE">
-                    <button class="btn btn-danger" type="submit">Delete</button>
-            </form>
+            <%- include ('partials/editDeal') %>
+            <%- include ('partials/removeDeal') %>
             </div>
             <br>
             <br>
