@@ -18,7 +18,7 @@ function closeRateByACV (closedDeals, lostDeals) {
     // Accumulate all ACV values from lostDeals array, store to a variable (totalLostACV)
     let totalLostACV = lostResult.reduce(reducer);
   
-        return (totalWonACV / (totalWonACV + totalLostACV)) * 100
+        return `${((totalWonACV / (totalWonACV + totalLostACV)) * 100).toFixed(2)}%`
     } else {
         return 0
     }
