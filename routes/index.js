@@ -3,8 +3,9 @@ const router = express.Router();
 const ClosedDeal = require('../models/closedDeal');
 const LostDeal = require('../models/lostDeal');
 
-const getCloseRateByACV = require('../models/src/algos/closeRateByACV');
-const getCloseRateByDeal = require('../models/src/algos/closeRateByDeal');
+const getCloseRateByACV = require('../models/src/algos/baseline/closeRateByACV');
+const getCloseRateByDeal = require('../models/src/algos/baseline/closeRateByDeal');
+const getCustomerNewSplitByDeal = require('../models/src/algos/baseline/customerNewSplitByDeal');
 
 
 
@@ -19,13 +20,17 @@ router.get('/', async (req, res) => {
       })
       let closeRateByACV = getCloseRateByACV(closedDeals, lostDeals);
       let closeRateByDeal = getCloseRateByDeal(closedDeals, lostDeals);
+      let customerNewSplitByDeal = getCustomerNewSplitByDeal(closedDeals, lostDeals);
+      let averageSalesCycleLength = `Work in progress.`
       res.render('index.ejs', {
           closedDeals: closedDeals,
           closedDeal: new ClosedDeal,
           lostDeals: lostDeals,
           lostDeal: new LostDeal,
           closeRateByACV: closeRateByACV,
-          closeRateByDeal: closeRateByDeal
+          closeRateByDeal: closeRateByDeal,
+          customerNewSplitByDeal: customerNewSplitByDeal,
+          averageSalesCycleLength: averageSalesCycleLength
       })
   } catch {
       res.send('Something went wrong');
