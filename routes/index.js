@@ -53,7 +53,6 @@ router.get('/:id', async (req, res) => {
 router.get('/lost/:id', async (req, res) => {
   try {
     const lostDeal = await LostDeal.findById(req.params.id)
-    console.log(lostDeal)
     res.render('lostDealPage.ejs', {
       lostDeal: lostDeal
     })
