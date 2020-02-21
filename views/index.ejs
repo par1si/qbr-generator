@@ -1,28 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Forecast Helper</title>
-</head>
+<%- include ('partials/_head') -%>
 <body>
     <h1>Submit a Closed-Won deal here:</h1>
     <form method="post" action="/">
         <%- include ('partials/_form_fields') -%>
         <button type="submit">Submit</button>
     </form>
-    <h1>Your <%= closedDeals.length %> Deal(s) This Quarter:</h1>
+    <h1>Submit a Closed-Lost deal here:</h1>
+    <form method="post" action="/lost">
+        <%- include ('partials/_form_fields_lost') -%>
+        <button type="submit">Submit</button>
+    </form>
+    <h1>Your <%= closedDeals.length %> Won Deal(s) This Quarter:</h1>
            <% closedDeals.forEach(ClosedDeal => { %>
         <div class="closed-deals" id="closed-deals">
-            <div class="closed-deal-name"><p>Company Name = <a href="/<%= ClosedDeal.id %>"><%= ClosedDeal.companyName %></a></p>
-            <div class="closed-deal-date"> <p> Closed On = <%= ClosedDeal.closedOn.toLocaleDateString().split('T')[0] %> </p></div>
-            <div class="closed-deal-body"> <p>Term Length = <%= ClosedDeal.termLength %></p> 
-            <p>ACV = <%= ClosedDeal.ACV %></p>
-            <p>Multi Year Revenue = <%= ClosedDeal.multiYearRevenue %></p>
-            <p>Services Hours = <%= ClosedDeal.servicesHours %></p>
-            <p>Quarter Closed = <%= ClosedDeal.fiscalQuarterClosed %></p>
+            <div class="closed-deal-name"><p><a href="/<%= ClosedDeal.id %>"><%= ClosedDeal.companyName %>, <%= ClosedDeal.termLength %> Year Deal at <%= ClosedDeal.ACV %> ACV.</a></p> 
             </div>
+        </div> 
+    <% }) %>
+    <h1>Your <%= lostDeals.length %> Lost Deal(s) This Quarter:</h1>
+           <% lostDeals.forEach(LostDeal => { %>
+        <div class="lost-deals" id="lost-deals">
+            <div class="lost-deal-name"><p><a href="/lost/<%= LostDeal.id %>"><%= LostDeal.companyName %></a></p>
         </div> 
     <% }) %>
         <div>

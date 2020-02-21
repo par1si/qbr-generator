@@ -9,10 +9,6 @@ const lostDealSchema = new mongoose.Schema({
         type: 'string',
         required: true
     },
-    termLength: {
-        type: 'number',
-        required: true
-    },
     ACV: {
         type: 'number',
         required: true
@@ -36,6 +32,10 @@ const lostDealSchema = new mongoose.Schema({
     revenueBooked: {
         type: 'Boolean',
         default: false
+    },
+    fiscalQuarterClosed: {
+        type: 'String',
+        required: true
     }
 });
 
