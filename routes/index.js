@@ -3,6 +3,11 @@ const router = express.Router();
 const ClosedDeal = require('../models/closedDeal');
 const LostDeal = require('../models/lostDeal');
 
+const getCloseRateByACV = require('../models/src/algos/closeRateByACV');
+const getCloseRateByDeal = require('../models/src/algos/closeRateByDeal');
+
+
+
 // GET route
 router.get('/', async (req, res) => {
   try {
@@ -12,14 +17,18 @@ router.get('/', async (req, res) => {
       const lostDeals = await LostDeal.find({}, null, { limit: 15, sort: { createdOn: -1 } }, function (err, docs) {
         if (err) return console.error(err);
       })
+      let closeRateByACV = getCloseRateByACV(closedDeals, lostDeals);
+      let closeRateByDeal = getCloseRateByDeal(closedDeals, lostDeals);
       res.render('index.ejs', {
           closedDeals: closedDeals,
           closedDeal: new ClosedDeal,
           lostDeals: lostDeals,
-          lostDeal: new LostDeal
+          lostDeal: new LostDeal,
+          closeRateByACV: closeRateByACV,
+          closeRateByDeal: closeRateByDeal
       })
   } catch {
-      res.redirect('/');
+      res.send('Something went wrong');
   }
 });
 

@@ -20,11 +20,22 @@
     <h1>Your <%= lostDeals.length %> Lost Deal(s) This Quarter:</h1>
            <% lostDeals.forEach(LostDeal => { %>
         <div class="lost-deals" id="lost-deals">
-            <div class="lost-deal-name"><p><a href="/lost/<%= LostDeal.id %>"><%= LostDeal.companyName %></a></p>
+            <div class="lost-deal-name"><p><a href="/lost/<%= LostDeal.id %>"><%= LostDeal.companyName %>, at <%= LostDeal.ACV %> ACV.</a></p>
         </div> 
     <% }) %>
         <div>
-            <h1>Total Attainment:</h1>
+            <h1>Baseline Metrics:</h1>
+            <h3>Close Rate by Deal: <%= closeRateByDeal %>
+            </h3>
+            <h3>Close Rate by ACV: <%= closeRateByACV %>
+
+            </h3>
+            <h3>YTD Customer/New Split:
+
+            </h3>
+            <h3>Average Sales Cycle Length:
+
+            </h3>
         </div>        
 </body>
 </html>
