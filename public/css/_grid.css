@@ -1,0 +1,19 @@
+body {
+    padding-bottom: 50px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: .25rem;
+    padding: 0 .5rem;
+    grid-template-areas: ". content content content content content content content content content content ."
+}
+
+.content {
+    grid-area: content;
+    max-width: 1000px;
+    width: 100%;
+}

@@ -6,10 +6,15 @@ const LostDeal = require('../models/lostDeal');
 const getCloseRateByACV = require('../models/src/algos/baseline/closeRateByACV');
 const getCloseRateByDeal = require('../models/src/algos/baseline/closeRateByDeal');
 const getCustomerNewSplitByDeal = require('../models/src/algos/baseline/customerNewSplitByDeal');
+const getSalesCycleLength = require('../models/src/algos/baseline/salesCycleLength');
 
 
+// Defining Quarters
+const today = new Date();
+const quarter = `Q${Math.floor((today.getMonth() + 1) / 3)}`;
 
-// GET route
+
+// GET route for root
 router.get('/', async (req, res) => {
   try {
       const closedDeals = await ClosedDeal.find({}, null, { limit: 15, sort: { createdOn: -1 } }, function (err, docs) {
@@ -21,7 +26,7 @@ router.get('/', async (req, res) => {
       let closeRateByACV = getCloseRateByACV(closedDeals, lostDeals);
       let closeRateByDeal = getCloseRateByDeal(closedDeals, lostDeals);
       let customerNewSplitByDeal = getCustomerNewSplitByDeal(closedDeals, lostDeals);
-      let averageSalesCycleLength = `Work in progress.`
+      let averageSalesCycleLength = getSalesCycleLength(closedDeals);
       res.render('index.ejs', {
           closedDeals: closedDeals,
           closedDeal: new ClosedDeal,
