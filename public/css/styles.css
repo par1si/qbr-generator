@@ -1,0 +1,51 @@
+.hero {
+    height: 100vh;
+    width: 100%;
+
+    background-image: url(../images/hero.jpg);
+    background-size: cover;
+
+    overflow: hidden;
+
+    visibility: visible;
+}
+
+h2 {
+    margin: 0;
+}
+
+.hero-subtitle {
+    text-align: center;
+
+    color: white;
+    font-size: 36px;
+
+    margin-top: 25rem;
+    margin-bottom: 0;
+}
+
+a:link {
+    text-decoration: none;
+    color: #000280;
+    cursor: pointer;
+}
+
+a:visited {
+    text-decoration: none;
+    color: #000280;
+    cursor: pointer;
+}
+
+button {
+    outline: none;
+    border: .25px dashed white;
+}
+
+.hero-button {
+    height: 3rem;
+    
+    background-color: transparent;
+
+    font-size: 26px;
+}
+

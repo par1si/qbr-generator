@@ -1,12 +1,17 @@
 <%- include ('partials/_head') -%>
-<body class="grid">
-
+<body>
     <div class="hero">
         <div class="hero-subtitle">
+            <h2>QBR Generator</h2>
+            <button class="hero-button"><a href="#closed-won-deal-input">Get Started</a></button>
         </div>
     </div>
+
+    <div class="grid">
     
     <div class="content">
+
+    <div id="closed-won-deal-input"></div>
     <h1>Submit a Closed-Won deal here:</h1>
     <form method="post" action="/">
         <%- include ('partials/_form_fields') -%>
@@ -44,6 +49,7 @@
 
             </h3>
         </div>     
-    </div>   
+    </div>
+</div>   
 </body>
 </html>
