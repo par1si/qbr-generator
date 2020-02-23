@@ -25,13 +25,13 @@ h2 {
 }
 
 a:link {
-    text-decoration: none;
+    text-decoration: blue;
     color: #000280;
     cursor: pointer;
 }
 
 a:visited {
-    text-decoration: none;
+    text-decoration: blue;
     color: #000280;
     cursor: pointer;
 }
