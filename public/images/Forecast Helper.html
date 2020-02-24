@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://localhost:3000/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Forecast Helper</title>
+    <link href="./Forecast Helper_files/css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./Forecast Helper_files/_normalize.css">
+    <link rel="stylesheet" type="text/css" href="./Forecast Helper_files/_grid.css">
+    <link rel="stylesheet" type="text/css" href="./Forecast Helper_files/styles.css">
+    <link rel="stylesheet" type="text/css" href="./Forecast Helper_files/_form_fields.css">
+    <link rel="stylesheet" type="text/css" href="./Forecast Helper_files/_deals.css">
+    <link rel="icon" href="http://localhost:3000/images/graph.png">
+</head><body>
+    <div class="hero">
+        <div class="hero-subtitle">
+            <h2>QBR Generator</h2>
+            <button class="hero-button"><a href="http://localhost:3000/#closed-won-deal-input">Get Started</a></button>
+        </div>
+    </div>
+
+    <div class="grid">
+    
+    <div class="content">
+
+    <div id="closed-won-deal-input"></div>
+    <form method="post" action="http://localhost:3000/" class="_form_fields">
+        <h1>Submit a Closed-Won deal here:</h1>
+        <label>Company Name:</label>
+    <input type="text" name="companyName" id="company-name" placeholder="e.g. Optimizely, Inc." value="">
+<br>
+<label>Quarter Closed:</label>
+    <select class="quarter-closed" name="fiscalQuarterClosed" id="quarter-closed" value="">
+        <option value="Q1" name="fiscalQuarterClosed">Q1</option>
+        <option value="Q2" name="fiscalQuarterClosed">Q2</option>
+        <option value="Q3" name="fiscalQuarterClosed">Q3</option>
+        <option value="Q4" name="fiscalQuarterClosed" selected="">Q4</option>
+    </select>
+<br>
+<label>Deal Type:</label>
+    <select class="deal-type" name="dealType" id="deal-type" value="">
+        <option value="New" name="dealType">New</option>
+        <option value="Horizontal Expansion" name="dealType">Horizontal Expansion</option>
+        <option value="Vertical Expansion" name="dealType">Vertical Expansion</option>
+    </select>
+<br>
+<label>Industry:</label>
+    <select class="industry" name="industry" id="industry" value="">
+        <option value="B2B Software" name="industry">B2B Software</option>
+        <option value="Retail/eCommerce" name="industry">Retail/eCommerce</option>
+        <option value="FinServ" name="industry">FinServ</option>
+        <option value="Media" name="industry">Media</option>
+        <option value="B2C Software" name="industry">B2C Software</option>
+        <option value="Travel" name="industry">Travel</option>
+        <option value="EdTech" name="industry">EdTech</option>
+        <option value="Other" name="industry">Other</option>
+    </select>
+<br>
+<label>Closed On:</label>
+    <input type="date" name="closedOn" id="closed-on" placeholder="e.g. 2/15/2020">
+<br>
+<label>Term Length in Years:</label>
+    <select class="current-term-length" name="termLength" id="current-term-length" value="">
+        <option value="1" name="termLength">One Year</option>
+        <option value="2" name="termLength">Two Year</option>
+        <option value="3" name="termLength">Three Year</option>
+    </select>
+<br>
+<label>ACV:</label>
+    <input type="number" name="ACV" id="acv" placeholder="e.g. $100,000" value="">
+<br>
+<label>Revenue in Years 2+:</label>
+    <input type="number" name="multiYearRevenue" id="current-multi-year-revenue" placeholder="e.g. $100,000" value="">
+<br>
+<label>Services Hours:</label>
+    <input type="number" name="servicesHours" id="current-services-hours" placeholder="e.g. 80" value="">
+<br>
+<label>Date That The Customer First Engaged with Optimizely:</label>
+    <input type="date" name="dateFirstEngaged" id="date-first-engaged">
+<br>
+<label>Executive Involved:</label>
+    <select class="executive-involved" name="executiveInvolved" id="executive-involved" value="&lt;/select">&gt;
+            <option value="Yes" name="executiveInvolved" selected="">Yes</option>
+            <option value="No" name="executiveInvolved">No</option>
+    </select>
+<br>
+<label>Main Competitor:</label>
+    <input type="text" name="mainCompetitor" id="main-competitor" placeholder="VWO" value="">
+<br>        <button type="submit" class="submit">Submit</button>
+    </form>
+    
+    <form method="post" action="http://localhost:3000/lost">
+        <h1>Submit a Closed-Lost deal here:</h1>
+        <label>Company Name:</label>
+    <input type="text" name="companyName" id="company-name" placeholder="e.g. Optimizely, Inc." value="">
+<br>
+<label>Quarter Closed-Lost:</label>
+    <select class="quarter-closed" name="fiscalQuarterClosed" id="quarter-closed" value="">
+        <option value="Q1" name="fiscalQuarterClosed">Q1</option>
+        <option value="Q2" name="fiscalQuarterClosed">Q2</option>
+        <option value="Q3" name="fiscalQuarterClosed">Q3</option>
+        <option value="Q4" name="fiscalQuarterClosed" selected="">Q4</option>
+    </select>
+<br>
+<label>Deal Type:</label>
+    <select class="deal-type" name="dealType" id="deal-type" value="">
+        <option value="New" name="dealType">New</option>
+        <option value="Horizontal Expansion" name="dealType">Horizontal Expansion</option>
+        <option value="Vertical Expansion" name="dealType">Vertical Expansion</option>
+    </select>
+<br>
+<label>Industry:</label>
+    <select class="industry" name="industry" id="industry" value="">
+        <option value="B2B Software" name="industry">B2B Software</option>
+        <option value="Retail/eCommerce" name="industry">Retail/eCommerce</option>
+        <option value="FinServ" name="industry">FinServ</option>
+        <option value="Media" name="industry">Media</option>
+        <option value="B2C Software" name="industry">B2C Software</option>
+        <option value="Travel" name="industry">Travel</option>
+        <option value="EdTech" name="industry">EdTech</option>
+        <option value="Other" name="industry">Other</option>
+    </select>
+<br>
+<label>ACV:</label>
+    <input type="number" name="ACV" id="acv" placeholder="e.g. $100,000" value="">
+<br>
+<label>Date That The Customer First Engaged with Optimizely:</label>
+    <input type="date" name="dateFirstEngaged" id="date-first-engaged">
+<br>
+<label>Executive Involved:</label>
+    <select class="executive-involved" name="executiveInvolved" id="executive-involved" value="&lt;/select">&gt;
+            <option value="Yes" name="executiveInvolved" selected="">Yes</option>
+            <option value="No" name="executiveInvolved">No</option>
+    </select>
+<br>
+<label>Main Competitor:</label>
+    <input type="text" name="mainCompetitor" id="main-competitor" placeholder="VWO" value="">
+<br>        <button type="submit" class="submit">Submit</button>
+    </form>
+
+    <div class="won-deals">
+    <h1>Your 10 Won Deal(s) This Quarter:</h1>
+           
+        <div class="closed-deals" id="closed-deals">
+            <div class="closed-deal-name"><p><a href="http://localhost:3000/5e4f226d1cf950dc9296be08">Kabbage, 1 Year Deal at 135000 ACV.</a></p> 
+            </div>
+        </div> 
+    
+        <div class="closed-deals" id="closed-deals">
+            <div class="closed-deal-name"><p><a href="http://localhost:3000/5e4f234f1cf950dc9296be13">FOX HEAD, Inc., 2 Year Deal at 37500 ACV.</a></p> 
+            </div>
+        </div> 
+    
+        <div class="closed-deals" id="closed-deals">
+            <div class="closed-deal-name"><p><a href="http://localhost:3000/5e4f23f11cf950dc9296be16">Flatiron School, Inc., 2 Year Deal at 70000 ACV.</a></p> 
+            </div>
+        </div> 
+    
+        <div class="closed-deals" id="closed-deals">
+            <div class="closed-deal-name"><p><a href="http://localhost:3000/5e4f24271cf950dc9296be19">edX, Inc., 1 Year Deal at 11000 ACV.</a></p> 
+            </div>
+        </div> 
+    
+        <div class="closed-deals" id="closed-deals">
+            <div class="closed-deal-name"><p><a href="http://localhost:3000/5e4f24641cf950dc9296be1c">Azlo, Inc., 2 Year Deal at 110000 ACV.</a></p> 
+            </div>
+        </div> 
+    
+        <div class="closed-deals" id="closed-deals">
+            <div class="closed-deal-name"><p><a href="http://localhost:3000/5e4f24a71cf950dc9296be1f">Quibi Holdings, 2 Year Deal at 34000 ACV.</a></p> 
+            </div>
+        </div> 
+    
+        <div class="closed-deals" id="closed-deals">
+            <div class="closed-deal-name"><p><a href="http://localhost:3000/5e4f24f81cf950dc9296be22">Capsule, Inc., 2 Year Deal at 7500 ACV.</a></p> 
+            </div>
+        </div> 
+    
+        <div class="closed-deals" id="closed-deals">
+            <div class="closed-deal-name"><p><a href="http://localhost:3000/5e4f25441cf950dc9296be25">Segment.io, Inc., 1 Year Deal at 30000 ACV.</a></p> 
+            </div>
+        </div> 
+    
+        <div class="closed-deals" id="closed-deals">
+            <div class="closed-deal-name"><p><a href="http://localhost:3000/5e4f25af1cf950dc9296be28">Quip, 1 Year Deal at 50000 ACV.</a></p> 
+            </div>
+        </div> 
+    
+        <div class="closed-deals" id="closed-deals">
+            <div class="closed-deal-name"><p><a href="http://localhost:3000/5e4f26041cf950dc9296be2d">Digital Turbine, Inc., 1 Year Deal at 80000 ACV.</a></p> 
+            </div>
+        </div> 
+    
+    </div>
+
+    <div class="lost-deals">
+    <h1>Your 5 Lost Deal(s) This Quarter:</h1>
+           
+        <div class="closed-lost-deals" id="closed-lost-deals">
+            <div class="lost-deal-name"><p><a href="http://localhost:3000/lost/5e4f531e55f4272a14b5a1f7">People.ai, at $65540ACV.</a></p>
+            </div> 
+        </div>
+    
+        <div class="closed-lost-deals" id="closed-lost-deals">
+            <div class="lost-deal-name"><p><a href="http://localhost:3000/lost/5e4f5526f59fa62be4696d49">AppFolio, at $18128ACV.</a></p>
+            </div> 
+        </div>
+    
+        <div class="closed-lost-deals" id="closed-lost-deals">
+            <div class="lost-deal-name"><p><a href="http://localhost:3000/lost/5e4f565e07356d2c68cba6e7">Rally Health, Inc., at $100000ACV.</a></p>
+            </div> 
+        </div>
+    
+        <div class="closed-lost-deals" id="closed-lost-deals">
+            <div class="lost-deal-name"><p><a href="http://localhost:3000/lost/5e4f56ac07356d2c68cba6ea">ALM Media, at $88000ACV.</a></p>
+            </div> 
+        </div>
+    
+        <div class="closed-lost-deals" id="closed-lost-deals">
+            <div class="lost-deal-name"><p><a href="http://localhost:3000/lost/5e4f570107356d2c68cba6ed">Neutron Holdings, dba Lime, Inc., at $50000ACV.</a></p>
+            </div> 
+        </div>
+    
+    </div>
+
+    <div class="metrics">
+        <h1>Baseline Metrics:</h1>
+        <h3>Close Rate by deal: 66.67%</h3>
+        <h3>Close Rate by ACV: 63.72%</h3>
+        <h3>Customer/New split by deal: 11.11%</h3>
+        <h3>Average sales cycle length, including initial prospective conversations: 158.25 days</h3>
+    </div>     
+    
+    </div>
+
+
+</div></body></html>

@@ -8,6 +8,7 @@ const getCloseRateByDeal = require('../models/src/algos/baseline/closeRateByDeal
 const getCustomerNewSplitByDeal = require('../models/src/algos/baseline/customerNewSplitByDeal');
 const getSalesCycleLength = require('../models/src/algos/baseline/salesCycleLength');
 
+const numberWithCommas = require('../public/js/numberWithCommas');
 
 // Defining Quarters
 const today = new Date();
@@ -35,7 +36,8 @@ router.get('/', async (req, res) => {
           closeRateByACV: closeRateByACV,
           closeRateByDeal: closeRateByDeal,
           customerNewSplitByDeal: customerNewSplitByDeal,
-          averageSalesCycleLength: averageSalesCycleLength
+          averageSalesCycleLength: averageSalesCycleLength,
+          numberWithCommas: numberWithCommas
       })
   } catch {
       res.send('Something went wrong');

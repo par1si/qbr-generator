@@ -12,16 +12,19 @@
     <div class="content">
 
     <div id="closed-won-deal-input"></div>
-    <h1>Submit a Closed-Won deal here:</h1>
-    <form method="post" action="/">
+    <form method="post" action="/" class="_form_fields">
+        <h1>Submit a Closed-Won deal here:</h1>
         <%- include ('partials/_form_fields') -%>
-        <button type="submit">Submit</button>
+        <button type="submit" class="submit">Submit</button>
     </form>
-    <h1>Submit a Closed-Lost deal here:</h1>
+    
     <form method="post" action="/lost">
+        <h1>Submit a Closed-Lost deal here:</h1>
         <%- include ('partials/_form_fields_lost') -%>
-        <button type="submit">Submit</button>
+        <button type="submit" class="submit">Submit</button>
     </form>
+
+    <div class="won-deals">
     <h1>Your <%= closedDeals.length %> Won Deal(s) This Quarter:</h1>
            <% closedDeals.forEach(ClosedDeal => { %>
         <div class="closed-deals" id="closed-deals">
@@ -29,27 +32,27 @@
             </div>
         </div> 
     <% }) %>
+    </div>
+
+    <div class="lost-deals">
     <h1>Your <%= lostDeals.length %> Lost Deal(s) This Quarter:</h1>
            <% lostDeals.forEach(LostDeal => { %>
-        <div class="lost-deals" id="lost-deals">
-            <div class="lost-deal-name"><p><a href="/lost/<%= LostDeal.id %>"><%= LostDeal.companyName %>, at <%= LostDeal.ACV %> ACV.</a></p>
-        </div> 
+        <div class="closed-lost-deals" id="closed-lost-deals">
+            <div class="lost-deal-name"><p><a href="/lost/<%= LostDeal.id %>"><%= LostDeal.companyName %>, at $<%= LostDeal.ACV %> ACV.</a></p>
+            </div> 
+        </div>
     <% }) %>
-        <div>
-            <h1>Baseline Metrics:</h1>
-            <h3>Close Rate by Deal: <%= closeRateByDeal %>
-            </h3>
-            <h3>Close Rate by ACV: <%= closeRateByACV %>
-
-            </h3>
-            <h3>Customer/New Split By Deal: <%= customerNewSplitByDeal %>
-
-            </h3>
-            <h3>Average Sales Cycle Length: <%= averageSalesCycleLength %> days
-
-            </h3>
-        </div>     
     </div>
-</div>   
+
+    <div class="metrics">
+        <h1>Baseline Metrics:</h1>
+        <h3>Close Rate by deal: <%= closeRateByDeal %></h3>
+        <h3>Close Rate by ACV: <%= closeRateByACV %></h3>
+        <h3>Customer/New split by deal: <%= customerNewSplitByDeal %></h3>
+        <h3>Average sales cycle length, including initial prospective conversations: <%= averageSalesCycleLength %> days</h3>
+    </div>     
+    
+    </div>
+
 </body>
 </html>
