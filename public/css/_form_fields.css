@@ -1,5 +1,5 @@
 input {
-    margin: .5rem;
+    margin: .5rem 0 .5rem 0;
     border-radius: 5px;
     border: solid .5px grey;
     outline: none;
@@ -17,7 +17,7 @@ input:focus {
 }
 
 select {
-    margin: .5rem;
+    margin: .5rem 0 .5rem 0;
     border-radius: 5px;
     border: solid .5px grey;
     outline: none;
@@ -32,8 +32,4 @@ select {
 select:focus {
     padding-left: .75rem;
     padding-right: .75rem;
-}
-
-._form_fields {
-    margin: 3rem 0 3rem 0;
 }

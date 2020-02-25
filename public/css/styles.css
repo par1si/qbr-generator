@@ -49,3 +49,35 @@ button {
     font-size: 26px;
 }
 
+.submit {
+    border: solid 1px grey;
+    margin-top: 1rem;
+}
+
+.deal-information-container {
+    margin-top: 2.5rem auto 2.5rem auto;
+}
+
+._form_fields {
+    padding: 2rem;
+    border: 1px solid #3881ff;
+    border-radius: 5px;
+}
+
+.won-deals {
+    padding: 2rem;
+    border: 1px solid #3881ff;
+    border-radius: 5px;
+}
+
+.lost-deals {
+    padding: 2rem;
+    border: 1px solid #3881ff;
+    border-radius: 5px;
+}
+
+.metrics {
+    padding: 2rem;
+    border: 1px solid #3881ff;
+    border-radius: 5px;
+}

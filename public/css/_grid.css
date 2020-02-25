@@ -6,10 +6,10 @@ body {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: .25rem;
-    padding: 0 .5rem;
-    grid-template-areas: ". content content content content content content content content content content ."
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    padding: 0 2rem;
+    grid-template-areas: "content content";
 }
 
 .content {
@@ -18,3 +18,4 @@ body {
     max-width: 1000px;
     width: 100%;
 }
+

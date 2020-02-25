@@ -11,24 +11,26 @@
     
     <div class="content">
 
-    <div id="closed-won-deal-input"></div>
+    <div class="deal-information-container grid" id="closed-won-deal-input">
     <form method="post" action="/" class="_form_fields">
         <h1>Submit a Closed-Won deal here:</h1>
         <%- include ('partials/_form_fields') -%>
         <button type="submit" class="submit">Submit</button>
     </form>
     
-    <form method="post" action="/lost">
+    <form method="post" action="/lost" class="_form_fields">
         <h1>Submit a Closed-Lost deal here:</h1>
         <%- include ('partials/_form_fields_lost') -%>
         <button type="submit" class="submit">Submit</button>
     </form>
+    </div> 
 
+    <div class="deal-information-container grid">
     <div class="won-deals">
     <h1>Your <%= closedDeals.length %> Won Deal(s) This Quarter:</h1>
            <% closedDeals.forEach(ClosedDeal => { %>
         <div class="closed-deals" id="closed-deals">
-            <div class="closed-deal-name"><p><a href="/<%= ClosedDeal.id %>"><%= ClosedDeal.companyName %>, <%= ClosedDeal.termLength %> Year Deal at <%= ClosedDeal.ACV %> ACV.</a></p> 
+            <div class="closed-deal-name"><p><a href="/<%= ClosedDeal.id %>"><%= ClosedDeal.companyName %>, <%= ClosedDeal.termLength %> Year Deal at $<%= ClosedDeal.ACV %> ACV.</a></p> 
             </div>
         </div> 
     <% }) %>
@@ -49,8 +51,10 @@
         <h3>Close Rate by deal: <%= closeRateByDeal %></h3>
         <h3>Close Rate by ACV: <%= closeRateByACV %></h3>
         <h3>Customer/New split by deal: <%= customerNewSplitByDeal %></h3>
-        <h3>Average sales cycle length, including initial prospective conversations: <%= averageSalesCycleLength %> days</h3>
-    </div>     
+        <h3>Average sales cycle length, including initial prospective conversations: <%= averageSalesCycleLength %> days.</h3>
+    </div>
+    </div>
+        
     
     </div>
 
