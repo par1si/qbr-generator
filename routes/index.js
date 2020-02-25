@@ -3,10 +3,17 @@ const router = express.Router();
 const ClosedDeal = require('../models/closedDeal');
 const LostDeal = require('../models/lostDeal');
 
+
+// Loading in baseline algorithms
 const getCloseRateByACV = require('../models/src/algos/baseline/closeRateByACV');
 const getCloseRateByDeal = require('../models/src/algos/baseline/closeRateByDeal');
 const getCustomerNewSplitByDeal = require('../models/src/algos/baseline/customerNewSplitByDeal');
 const getSalesCycleLength = require('../models/src/algos/baseline/salesCycleLength');
+
+// Loading in charting algorithms
+
+const getClosedDealACVArray = require('../models/src/algos/charts/closedDealACVArray');
+const getClosedDealNames = require('../models/src/algos/charts/closedDealNames');
 
 const numberWithCommas = require('../public/js/numberWithCommas');
 
@@ -18,16 +25,20 @@ const quarter = `Q${Math.floor((today.getMonth() + 1) / 3)}`;
 // GET route for root
 router.get('/', async (req, res) => {
   try {
-      const closedDeals = await ClosedDeal.find({}, null, { limit: 15, sort: { createdOn: -1 } }, function (err, docs) {
+      const closedDeals = await ClosedDeal.find({}, null, { limit: 15, sort: { closedOn: 1 } }, function (err, docs) {
           if (err) return console.error(err);
       })
-      const lostDeals = await LostDeal.find({}, null, { limit: 15, sort: { createdOn: -1 } }, function (err, docs) {
+      const lostDeals = await LostDeal.find({}, null, { limit: 15, sort: { closedOn: -1 } }, function (err, docs) {
         if (err) return console.error(err);
       })
       let closeRateByACV = getCloseRateByACV(closedDeals, lostDeals);
       let closeRateByDeal = getCloseRateByDeal(closedDeals, lostDeals);
       let customerNewSplitByDeal = getCustomerNewSplitByDeal(closedDeals, lostDeals);
       let averageSalesCycleLength = getSalesCycleLength(closedDeals);
+      
+      let closedDealACVArray = getClosedDealACVArray(closedDeals);
+      let closedDealNames = getClosedDealNames(closedDeals);
+      
       res.render('index.ejs', {
           closedDeals: closedDeals,
           closedDeal: new ClosedDeal,
@@ -37,7 +48,9 @@ router.get('/', async (req, res) => {
           closeRateByDeal: closeRateByDeal,
           customerNewSplitByDeal: customerNewSplitByDeal,
           averageSalesCycleLength: averageSalesCycleLength,
-          numberWithCommas: numberWithCommas
+          numberWithCommas: numberWithCommas,
+          closedDealACVArray: closedDealACVArray,
+          closedDealNames: closedDealNames
       })
   } catch {
       res.send('Something went wrong');
