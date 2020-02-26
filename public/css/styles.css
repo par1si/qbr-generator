@@ -54,30 +54,31 @@ button {
     margin-top: 1rem;
 }
 
-.deal-information-container {
-    margin-top: 2.5rem auto 2.5rem auto;
+.deal-input-container {
+    margin-bottom: 2rem;
 }
+
 
 ._form_fields {
     padding: 2rem;
-    border: 1px solid #3881ff;
+    border: 1px solid #616161;
     border-radius: 5px;
 }
 
 .won-deals {
     padding: 2rem;
-    border: 1px solid #3881ff;
+    border: 1px solid #616161;
     border-radius: 5px;
 }
 
 .lost-deals {
     padding: 2rem;
-    border: 1px solid #3881ff;
+    border: 1px solid #616161;
     border-radius: 5px;
 }
 
 .metrics {
     padding: 2rem;
-    border: 1px solid #3881ff;
+    border: 1px solid #616161;
     border-radius: 5px;
 }

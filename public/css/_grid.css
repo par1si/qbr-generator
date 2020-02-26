@@ -6,16 +6,16 @@ body {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(12, 1fr);
     gap: 2rem;
     padding: 0 2rem;
-    grid-template-areas: "content content";
+    grid-template-areas: ". content content content content content content content content content content .";
 }
 
 .content {
     grid-area: content;
     margin-top: 50px;
-    max-width: 1000px;
+    max-width: 100%;
     width: 100%;
 }
 

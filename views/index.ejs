@@ -11,21 +11,25 @@
     
     <div class="content">
 
-    <div class="deal-information-container grid" id="closed-won-deal-input">
-    <form method="post" action="/" class="_form_fields">
-        <h1>Submit a Closed-Won deal here:</h1>
-        <%- include ('partials/_form_fields') -%>
-        <button type="submit" class="submit">Submit</button>
-    </form>
+    <div class="deal-input-container" id="closed-won-deal-input">
+        <div class="won-deal-input">
+            <form method="post" action="/" class="_form_fields">
+                <h1>Submit a Closed-Won deal here:</h1>
+                <%- include ('partials/_form_fields') -%>
+                <button type="submit" class="submit">Submit</button>
+            </form>
+        </div>
     
-    <form method="post" action="/lost" class="_form_fields">
-        <h1>Submit a Closed-Lost deal here:</h1>
-        <%- include ('partials/_form_fields_lost') -%>
-        <button type="submit" class="submit">Submit</button>
-    </form>
+        <div class="lost-deal-input">
+            <form method="post" action="/lost" class="_form_fields">
+                <h1>Submit a Closed-Lost deal here:</h1>
+                <%- include ('partials/_form_fields_lost') -%>
+                <button type="submit" class="submit">Submit</button>
+            </form>
+        </div>
     </div> 
 
-    <div class="deal-information-container grid">
+    <div class="deal-information-container">
     <div class="won-deals">
     <h1>Your <%= closedDeals.length %> Won Deal(s) This Quarter:</h1>
            <% closedDeals.forEach(ClosedDeal => { %>

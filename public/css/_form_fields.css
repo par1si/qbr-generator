@@ -1,7 +1,7 @@
 input {
     margin: .5rem 0 .5rem 0;
     border-radius: 5px;
-    border: solid .5px grey;
+    border: solid 1px grey;
     outline: none;
     height: 1.5rem;
 
@@ -19,7 +19,7 @@ input:focus {
 select {
     margin: .5rem 0 .5rem 0;
     border-radius: 5px;
-    border: solid .5px grey;
+    border: solid 1px grey;
     outline: none;
     height: 1.5rem;
 
