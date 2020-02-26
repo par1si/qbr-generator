@@ -6,10 +6,10 @@ body {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 2rem;
     padding: 0 2rem;
-    grid-template-areas: ". content content content content content content content content content content .";
+    grid-template-areas: ". content content content content .";
 }
 
 .content {
