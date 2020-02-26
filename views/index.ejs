@@ -73,7 +73,19 @@
                         'rgba(255, 99, 132, 1)'
                     ],
                     borderWidth: 1
-                }]
+                }, {
+                    label: 'Quarterly Quota',
+                    data: [<%- quarterlyQuotaArray %>],
+                    pointRadius: 0,
+                    backgroundColor: [
+                        'rgba(0, 0, 0, 0)'
+                    ],
+                    borderColor: [
+                        'rgba(0, 0, 0)'
+                    ],
+                    borderWidth: 1
+                }
+                ]
             },
             options: {
                 scales: {
@@ -82,12 +94,40 @@
                             beginAtZero: true
                         }
                     }]
-                }
-            }
+                },
+            },
         });
         </script>
 
     </div>
+
+    <div class="chartTwo">
+            <canvas id="chartTwo"></canvas>
+            <script>
+            var ctx = document.getElementById('chartTwo').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['New', 'Existing'],
+                    datasets: [{
+                        label: 'New versus Existing',
+                        data: [<%- newBusinessACVTotal %>, <%- existingBusinessACVTotal %>],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(0, 0, 0, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                },
+            });
+            </script>
+    
+        </div>
         
     
     </div>

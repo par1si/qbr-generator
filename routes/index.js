@@ -14,6 +14,9 @@ const getSalesCycleLength = require('../models/src/algos/baseline/salesCycleLeng
 
 const getClosedDealACVArray = require('../models/src/algos/charts/closedDealACVArray');
 const getClosedDealNames = require('../models/src/algos/charts/closedDealNames');
+const getQuarterlyQuotaArray = require('../models/src/algos/charts/quarterlyQuota');
+const getNewBusinessACVTotal = require('../models/src/algos/charts/newBusinessACV');
+const getExistingBusinessACVTotal = require('../models/src/algos/charts/existingBusinessACV');
 
 const numberWithCommas = require('../public/js/numberWithCommas');
 
@@ -25,10 +28,10 @@ const quarter = `Q${Math.floor((today.getMonth() + 1) / 3)}`;
 // GET route for root
 router.get('/', async (req, res) => {
   try {
-      const closedDeals = await ClosedDeal.find({}, null, { limit: 15, sort: { closedOn: 1 } }, function (err, docs) {
+      const closedDeals = await ClosedDeal.find({}, null, { sort: { closedOn: 1 } }, function (err, docs) {
           if (err) return console.error(err);
       })
-      const lostDeals = await LostDeal.find({}, null, { limit: 15, sort: { closedOn: -1 } }, function (err, docs) {
+      const lostDeals = await LostDeal.find({}, null, { sort: { closedOn: -1 } }, function (err, docs) {
         if (err) return console.error(err);
       })
       let closeRateByACV = getCloseRateByACV(closedDeals, lostDeals);
@@ -38,6 +41,11 @@ router.get('/', async (req, res) => {
       
       let closedDealACVArray = getClosedDealACVArray(closedDeals);
       let closedDealNames = getClosedDealNames(closedDeals);
+      let newBusinessACVTotal = getNewBusinessACVTotal(closedDeals);
+      let existingBusinessACVTotal = getExistingBusinessACVTotal(closedDeals);
+
+      // I need to replace the "262,500" number with a value from the database. Implement user routing first.
+      let quarterlyQuotaArray = getQuarterlyQuotaArray(237500, closedDealACVArray);
       
       res.render('index.ejs', {
           closedDeals: closedDeals,
@@ -50,7 +58,10 @@ router.get('/', async (req, res) => {
           averageSalesCycleLength: averageSalesCycleLength,
           numberWithCommas: numberWithCommas,
           closedDealACVArray: closedDealACVArray,
-          closedDealNames: closedDealNames
+          closedDealNames: closedDealNames,
+          quarterlyQuotaArray: quarterlyQuotaArray,
+          newBusinessACVTotal: newBusinessACVTotal,
+          existingBusinessACVTotal: existingBusinessACVTotal
       })
   } catch {
       res.send('Something went wrong');
