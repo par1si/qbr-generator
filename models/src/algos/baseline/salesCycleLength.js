@@ -42,7 +42,7 @@ function getSalesCycleLength (closedDeals) {
         let totalSalesCycleLength = dayDifferenceArray.reduce(reducer)
         let averageSalesCycleLength = (totalSalesCycleLength / dayDifferenceArray.length)
         
-        return averageSalesCycleLength;
+        return averageSalesCycleLength.toFixed(2);
 
 
         } else {

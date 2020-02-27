@@ -31,7 +31,7 @@
 
     <div class="deal-information-container">
         <div class="won-deals deal-content-container">
-        <h1>Your <%= closedDeals.length %> Won Deal(s) This Quarter:</h1>
+        <h1> <%= wonDealMessage %> </h1>
             <% closedDeals.forEach(ClosedDeal => { %>
             <div class="closed-deals" id="closed-deals">
                 <div class="closed-deal-name"><p><a href="/<%= ClosedDeal.id %>"><%= ClosedDeal.companyName %>, <%= ClosedDeal.termLength %> Year Deal at $<%= ClosedDeal.ACV %> ACV.</a></p> 
@@ -41,7 +41,7 @@
         </div>
 
         <div class="lost-deals deal-content-container">
-        <h1>Your <%= lostDeals.length %> Lost Deal(s) This Quarter:</h1>
+        <h1> <%= lostDealMessage %> </h1>
             <% lostDeals.forEach(LostDeal => { %>
             <div class="closed-lost-deals" id="closed-lost-deals">
                 <div class="lost-deal-name"><p><a href="/lost/<%= LostDeal.id %>"><%= LostDeal.companyName %>, at $<%= LostDeal.ACV %> ACV.</a></p>

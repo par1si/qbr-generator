@@ -39,7 +39,7 @@ let lastQuarter = `Q` + getLastQuarter(today);
 // GET route for root
 router.get('/', async (req, res) => {
   try {
-      const closedDeals = await ClosedDeal.find({ fiscalQuarterClosed: lastQuarter}, null, { sort: { closedOn: 1 } }, function (err, docs) {
+      const closedDeals = await ClosedDeal.find({}, null, { sort: { closedOn: 1 } }, function (err, docs) {
           if (err) return console.error(err);
       })
       const lostDeals = await LostDeal.find({}, null, { sort: { closedOn: -1 } }, function (err, docs) {
@@ -55,14 +55,20 @@ router.get('/', async (req, res) => {
       let newBusinessACVTotal = getNewBusinessACVTotal(closedDeals);
       let existingBusinessACVTotal = getExistingBusinessACVTotal(closedDeals);
 
+      // Won & Lost deal messages:
+      let wonDealMessage = `Your ${closedDeals.length} Won Deal(s) this year:`
+      let lostDealMessage = `Your ${lostDeals.length} Lost Deal(s) this year:`
+
       // I need to replace the "262,500" number with a value from the database. Implement user routing first.
-      let quarterlyQuotaArray = getQuarterlyQuotaArray(237500, closedDealACVArray);
+      let quarterlyQuotaArray = getQuarterlyQuotaArray((237500 * 4), closedDealACVArray);
       
       res.render('index.ejs', {
           closedDeals: closedDeals,
           closedDeal: new ClosedDeal,
           lostDeals: lostDeals,
           lostDeal: new LostDeal,
+          wonDealMessage: wonDealMessage,
+          lostDealMessage: lostDealMessage,
           closeRateByACV: closeRateByACV,
           closeRateByDeal: closeRateByDeal,
           customerNewSplitByDeal: customerNewSplitByDeal,
@@ -111,6 +117,10 @@ router.get('/quarter/:quarter', async (req, res) => {
       let newBusinessACVTotal = getNewBusinessACVTotal(closedDeals);
       let existingBusinessACVTotal = getExistingBusinessACVTotal(closedDeals);
 
+      // Won & Lost Deal Messages
+      let wonDealMessage = `Your ${closedDeals.length} Won Deal(s) this quarter:`
+      let lostDealMessage = `Your ${lostDeals.length} Lost Deal(s) this quarter:`
+
       // I need to replace the "262,500" number with a value from the database. Implement user routing first.
       let quarterlyQuotaArray = getQuarterlyQuotaArray(237500, closedDealACVArray);
       
@@ -119,6 +129,8 @@ router.get('/quarter/:quarter', async (req, res) => {
           closedDeal: new ClosedDeal,
           lostDeals: lostDeals,
           lostDeal: new LostDeal,
+          wonDealMessage: wonDealMessage,
+          lostDealMessage: lostDealMessage,
           closeRateByACV: closeRateByACV,
           closeRateByDeal: closeRateByDeal,
           customerNewSplitByDeal: customerNewSplitByDeal,
@@ -152,7 +164,7 @@ router.post('/', (req, res) => {
   const closedDeal = new ClosedDeal(req.body);
   closedDeal.save()
       .then(item => {
-          res.redirect('/#closed-won-deal-input')
+          res.redirect('/')
       })
       .catch(err => {
           res.status(400).send('Unable to save entry to database.');
