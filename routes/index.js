@@ -20,15 +20,26 @@ const getExistingBusinessACVTotal = require('../models/src/algos/charts/existing
 
 const numberWithCommas = require('../public/js/numberWithCommas');
 
-// Defining Quarters
+// Defining current quarter
 const today = new Date();
-const quarter = `Q${Math.floor((today.getMonth() + 1) / 3)}`;
+function getLastQuarter (today) {
+  let quarter = Math.floor((today.getMonth() + 1) / 3);
+  if (quarter < 1) {
+    return 4
+  } else if (quarter > 4) {
+    return 1
+  } else {
+    return quarter
+  }
+}
+
+let lastQuarter = `Q` + getLastQuarter(today);
 
 
 // GET route for root
 router.get('/', async (req, res) => {
   try {
-      const closedDeals = await ClosedDeal.find({}, null, { sort: { closedOn: 1 } }, function (err, docs) {
+      const closedDeals = await ClosedDeal.find({ fiscalQuarterClosed: lastQuarter}, null, { sort: { closedOn: 1 } }, function (err, docs) {
           if (err) return console.error(err);
       })
       const lostDeals = await LostDeal.find({}, null, { sort: { closedOn: -1 } }, function (err, docs) {
@@ -80,6 +91,50 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// Sample GET route for :quarter parameter
+
+router.get('/quarter/:quarter', async (req, res) => {
+  try {
+    const closedDeals = await ClosedDeal.find({fiscalQuarterClosed : `Q${req.params.quarter}`}, null, { sort: { closedOn: 1 } }, function (err, docs){
+      if (err) return console.error(err);
+      })
+      const lostDeals = await LostDeal.find({fiscalQuarterClosed : `Q${req.params.quarter}`}, null, { sort: { closedOn: -1 } }, function (err, docs) {
+        if (err) return console.error(err);
+      })
+      let closeRateByACV = getCloseRateByACV(closedDeals, lostDeals);
+      let closeRateByDeal = getCloseRateByDeal(closedDeals, lostDeals);
+      let customerNewSplitByDeal = getCustomerNewSplitByDeal(closedDeals, lostDeals);
+      let averageSalesCycleLength = getSalesCycleLength(closedDeals);
+      
+      let closedDealACVArray = getClosedDealACVArray(closedDeals);
+      let closedDealNames = getClosedDealNames(closedDeals);
+      let newBusinessACVTotal = getNewBusinessACVTotal(closedDeals);
+      let existingBusinessACVTotal = getExistingBusinessACVTotal(closedDeals);
+
+      // I need to replace the "262,500" number with a value from the database. Implement user routing first.
+      let quarterlyQuotaArray = getQuarterlyQuotaArray(237500, closedDealACVArray);
+      
+      res.render('index.ejs', {
+          closedDeals: closedDeals,
+          closedDeal: new ClosedDeal,
+          lostDeals: lostDeals,
+          lostDeal: new LostDeal,
+          closeRateByACV: closeRateByACV,
+          closeRateByDeal: closeRateByDeal,
+          customerNewSplitByDeal: customerNewSplitByDeal,
+          averageSalesCycleLength: averageSalesCycleLength,
+          numberWithCommas: numberWithCommas,
+          closedDealACVArray: closedDealACVArray,
+          closedDealNames: closedDealNames,
+          quarterlyQuotaArray: quarterlyQuotaArray,
+          newBusinessACVTotal: newBusinessACVTotal,
+          existingBusinessACVTotal: existingBusinessACVTotal
+      })
+  } catch {
+      res.send('Something went wrong');
+  }
+});
+
 // GET route for :id parameter
 router.get('/lost/:id', async (req, res) => {
   try {
@@ -97,7 +152,7 @@ router.post('/', (req, res) => {
   const closedDeal = new ClosedDeal(req.body);
   closedDeal.save()
       .then(item => {
-          res.redirect('/')
+          res.redirect('/#closed-won-deal-input')
       })
       .catch(err => {
           res.status(400).send('Unable to save entry to database.');
@@ -109,7 +164,7 @@ router.post('/lost', (req, res) => {
   const lostDeal = new LostDeal(req.body);
   lostDeal.save()
       .then(item => {
-          res.redirect('/')
+          res.redirect('/#closed-won-deal-input')
       })
       .catch(err => {
           res.status(400).send('Unable to save entry to database.');
