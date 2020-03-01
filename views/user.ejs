@@ -1,0 +1,22 @@
+<%- include ('partials/_head') -%>
+<form action="add-user" method="POST">
+<h2>Register:</h2>
+<label>Email</label>
+<input type="text" name="email" placeholder="example@gmail.com">
+<label>Password</label>
+<input type="text" name="password">
+<button type="submit">Submit</button>
+</form>
+
+<form action="verify-user" method="POST">
+<h2>Login:</h2>
+<label>Email</label>
+<input type="text" name="email" placeholder="example@gmail.com">
+<label>Password</label>
+<input type="text" name="password">
+<button type="submit">Submit</button>
+</form>
+
+<br><br><br>
+
+<%= users %>

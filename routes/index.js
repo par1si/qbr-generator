@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const ClosedDeal = require('../models/closedDeal');
-const LostDeal = require('../models/lostDeal');
+const ClosedDeal = require('../models/schemas/closedDeal');
+const LostDeal = require('../models/schemas/lostDeal');
 
 
 // Loading in baseline algorithms
@@ -176,7 +176,7 @@ router.post('/lost', (req, res) => {
   const lostDeal = new LostDeal(req.body);
   lostDeal.save()
       .then(item => {
-          res.redirect('/#closed-won-deal-input')
+          res.redirect('/')
       })
       .catch(err => {
           res.status(400).send('Unable to save entry to database.');
@@ -203,12 +203,8 @@ router.put('/:id', async (req, res) => {
     await closedDeal.save()
     res.redirect(`/${closedDeal.id}`)
   } catch {
-    if (closedDeal == null) {
-      res.redirect('/')
-    } else {
-      res.send('Error updating deal.')
-      }
-    }
+    res.send('Error updating deal.')
+  }
 });
 
 // PUT route for /lost/:id parameter
@@ -225,12 +221,8 @@ router.put('/lost/:id', async (req, res) => {
     await lostDeal.save()
     res.redirect(`/${lostDeal.id}`)
   } catch {
-    if (lostDeal == null) {
-      res.redirect('/')
-    } else {
-      res.send('Error updating deal.')
-      }
-    }
+    res.send('Error updating deal.')
+  }
 });
 
 // DELETE route
@@ -266,6 +258,7 @@ router.delete('/lost/:id', async (req, res) => {
     }
   }
 });
+
 
 
 module.exports = router;

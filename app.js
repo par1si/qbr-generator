@@ -10,6 +10,7 @@ const port = 3000;
 
 // Defining Routes
 const indexRouter = require('./routes/index');
+const userRouter = require('./routes/user.router');
 
 // View Engine, Parsing Form Entries & Static File Directory
 app.set('view engine', 'ejs');
@@ -26,7 +27,8 @@ db.once('open', function() {
 });
 
 // Using Routes
-app.use('/', indexRouter);
+app.use('/qbr', indexRouter);
+app.use('/', userRouter);
 
 // Starting the server
 app.listen(port, () => {
