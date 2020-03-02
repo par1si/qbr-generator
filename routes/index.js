@@ -39,6 +39,7 @@ let lastQuarter = `Q` + getLastQuarter(today);
 // GET route for root
 router.get('/', async (req, res) => {
   try {
+      
       const closedDeals = await ClosedDeal.find({}, null, { sort: { closedOn: 1 } }, function (err, docs) {
           if (err) return console.error(err);
       })

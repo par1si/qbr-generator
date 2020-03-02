@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/schemas/user');
 const sha256 = require('sha256');
+const isAuthenticated = require('./isAuthenticated')
 
 router.get('/', async (req, res) => {
     try {
@@ -16,6 +17,13 @@ router.get('/', async (req, res) => {
     res.send('Something went wrong')
     }
 });
+
+router.post('/verify-user', async (req, res) => {
+    let UserData = await isAuthenticated(req, res);
+    let string = encodeURIComponent(UserData.hashedPassword)
+    res.redirect('/sample/?valid=' + string)
+})
+
 
 router.post('/add-user', async (req, res) => {
     const { email, password } = req.body;
