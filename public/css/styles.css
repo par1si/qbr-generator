@@ -1,0 +1,138 @@
+.hero {
+    height: 100vh;
+    width: 100%;
+
+    background-image: url(../images/hero.jpg);
+    background-size: cover;
+
+    overflow: hidden;
+
+    visibility: visible;
+}
+
+h2 {
+    margin: 0;
+}
+
+.hero-subtitle {
+    text-align: center;
+
+    color: white;
+    font-size: 36px;
+
+    margin-top: 25rem;
+    margin-bottom: 0;
+}
+
+a:link {
+    text-decoration: blue;
+    color: #000280;
+    cursor: pointer;
+}
+
+a:visited {
+    text-decoration: blue;
+    color: #000280;
+    cursor: pointer;
+}
+
+button {
+    outline: none;
+    border: .25px dashed white;
+}
+
+.hero-button {
+    height: 3rem;
+    
+    background-color: transparent;
+
+    font-size: 26px;
+}
+
+.submit {
+    border: solid 1px grey;
+    margin-top: 1rem;
+
+    cursor: pointer;
+
+    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
+
+    transition: box-shadow .25s;
+}
+
+.submit:hover {
+    box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
+}
+
+.deal-input {
+    padding: 2rem;
+    height: auto;
+    text-align: center;
+}
+
+.deal-input-container {
+    display: inline-flex;
+    margin: 3rem;
+    text-align: left;
+}
+
+._form_fields {
+    min-height: 25rem;
+
+    padding: 2rem;
+    border: 1px solid #616161;
+    border-radius: 5px;
+}
+
+input {
+    margin: .25rem;
+    border-radius: 5px;
+    border: solid 1px grey;
+    padding: 0 .5rem 0 .5rem;
+}
+
+select {
+    margin: .25rem;
+    border-radius: 5px;
+    border: solid 1px grey;
+    padding: 0 .5rem 0 .5rem;
+}
+
+.deal-information-wrapper {
+
+    text-align: center;
+    display: block;
+}
+
+.deal-information-container {
+    display: inline-flex;
+    height: auto;
+
+    margin: auto;
+    
+    align-items: baseline;
+    text-align: center;
+}
+
+.deal-content-container {
+    display: inline-block;
+    margin: 3rem;
+
+    border: 1px solid #616161;
+    border-radius: 5px;
+
+    max-width: 25%;
+    min-width: 20%;
+
+    padding: 2rem;
+}
+
+
+.chart {
+    margin-bottom: 5rem;
+    max-width: 50%;
+
+    padding: 2rem;
+    border: 1px solid #616161;
+    border-radius: 5px;
+}

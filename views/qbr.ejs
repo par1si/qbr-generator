@@ -1,20 +1,142 @@
 <%- include('partials/_head.ejs') %>
 <body>
-    <h1>qbr page</h1>
 
-    <h3>closed deals</h3>
-    <%= closedDeals %>
-    <h3>lost deals</h3>
-    <%= lostDeals %>
+    <div class="hero">
+        <div class="hero-subtitle">
+            <h2>QBR Generator</h2>
+            <button class="hero-button"><a href="#closed-won-deal-input">Get Started</a></button>
+        </div>
+    </div>
 
-    <form method="post" action="/qbr" class="_form_fields">
-        <%- include('partials/_form_fields.ejs') %>
-        <button type="submit" class="submit">Submit</button>
-    </form>
+    <div class="deal-input">
+        <div class="deal-input-container">
+            <form method="post" action="/qbr" class="_form_fields" id="closed-won-deal-input">
+                <h1>Submit a Closed-Won deal here:</h1>
+                <%- include('partials/_form_fields.ejs') %>
+                <button type="submit" class="submit">Submit</button>
+            </form>
+        </div>
 
-    <form method="post" action="/qbr/lost" class="_form_fields">
-        <h3>lost deal placholder</h3>
-        <button type="submit" class="submit">Submit</button>
-    </form>
+        <div class="deal-input-container">
+            <form method="post" action="/qbr/lost" class="_form_fields">
+                <h1>Submit a Closed-Lost deal here:</h1>
+                <%- include('partials/_form_fields_lost.ejs') %>
+                <button type="submit" class="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="deal-information-wrapper">
+    <div class="deal-information-container">
+        <div class="won-deals deal-content-container">
+            <h1> <%= wonDealMessage %> </h1>
+                <% closedDeals.forEach(ClosedDeal => { %>
+                <div class="closed-deals" id="closed-deals">
+                    <div class="closed-deal-name"><p><a href="/<%= ClosedDeal.id %>"><%= ClosedDeal.companyName %>, <%= ClosedDeal.termLength %> Year Deal at $<%= ClosedDeal.ACV %> ACV.</a></p> 
+                    </div>
+                </div> 
+            <% }) %>
+        </div>
+
+        <div class="lost-deals deal-content-container">
+            <h1> <%= lostDealMessage %> </h1>
+                <% lostDeals.forEach(LostDeal => { %>
+                <div class="closed-lost-deals" id="closed-lost-deals">
+                    <div class="lost-deal-name"><p><a href="/lost/<%= LostDeal.id %>"><%= LostDeal.companyName %>, at $<%= LostDeal.ACV %> ACV.</a></p>
+                    </div> 
+                </div>
+            <% }) %>
+        </div>
+
+        <div class="metrics deal-content-container">
+            <h1>Baseline Metrics:</h1>
+            <h3>Close Rate by deal: <%= closeRateByDeal %></h3>
+            <h3>Close Rate by ACV: <%= closeRateByACV %></h3>
+            <h3>Customer/New split by deal: <%= customerNewSplitByDeal %></h3>
+            <h3>Average sales cycle length, including initial prospective conversations: <%= averageSalesCycleLength %> days.</h3>
+        </div>
+    </div>
+    </div>
+
+    <!-- ====================== -->
+    <!-- Charts (ignore errors, linter not working) -->
+    <!-- ====================== -->
+
+    <div class="chartOne chart">
+        <h3>ACV Per Deal:</h3> 
+        <canvas id="chartOne"></canvas>
+        <script>
+        var ctx = document.getElementById('chartOne').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: <%- JSON.stringify(closedDealNames) %>,
+                datasets: [{
+                    label: 'ACV on Closed-Won Deals by Quarter',
+                    data: [<%- closedDealACVArray %>],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }, {
+                    label: 'Quarterly Quota',
+                    data: [<%- quarterlyQuotaArray %>],
+                    pointRadius: 0,
+                    backgroundColor: [
+                        'rgba(0, 0, 0, 0)'
+                    ],
+                    borderColor: [
+                        'rgba(0, 0, 0)'
+                    ],
+                    borderWidth: 1
+                }
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+            },
+        });
+        </script>
+
+    </div>
+
+    <div class="chartTwo chart">
+            <h3>New versus Existing ACV:</h3> 
+            <canvas id="chartTwo"></canvas>
+            <script>
+            var ctx = document.getElementById('chartTwo').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['New', 'Existing'],
+                    datasets: [{
+                        label: 'New versus Existing',
+                        data: [<%- newBusinessACVTotal %>, <%- existingBusinessACVTotal %>],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(0, 0, 0, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                },
+            });
+            </script>
+
+
 </body>
 </html>

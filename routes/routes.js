@@ -97,27 +97,21 @@ module.exports = function(app, passport) {
           let quarterlyQuotaArray = getQuarterlyQuotaArray((237500 * 4), closedDealACVArray);
           
           res.render('qbr.ejs', {
-              closedDeals: closedDeals,
-              closedDeal: new ClosedDeal,
-              lostDeals: lostDeals,
-              lostDeal: new LostDeal
-
-            // add in rest of values below once they're set up in ejs
-
-            /* ,
+            closedDeals: closedDeals,
+            closedDeal: new ClosedDeal,
+            lostDeals: lostDeals,
+            lostDeal: new LostDeal,
             wonDealMessage: wonDealMessage,
             lostDealMessage: lostDealMessage,
             closeRateByACV: closeRateByACV,
             closeRateByDeal: closeRateByDeal,
             customerNewSplitByDeal: customerNewSplitByDeal,
             averageSalesCycleLength: averageSalesCycleLength,
-            numberWithCommas: numberWithCommas,
             closedDealACVArray: closedDealACVArray,
             closedDealNames: closedDealNames,
             quarterlyQuotaArray: quarterlyQuotaArray,
             newBusinessACVTotal: newBusinessACVTotal,
-            existingBusinessACVTotal: existingBusinessACVTotal */
-
+            existingBusinessACVTotal: existingBusinessACVTotal
             })
     } catch {
         res.send('error')
