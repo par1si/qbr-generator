@@ -1,0 +1,20 @@
+<%- include('partials/_head.ejs') %>
+<body>
+    <h1>qbr page</h1>
+
+    <h3>closed deals</h3>
+    <%= closedDeals %>
+    <h3>lost deals</h3>
+    <%= lostDeals %>
+
+    <form method="post" action="/qbr" class="_form_fields">
+        <%- include('partials/_form_fields.ejs') %>
+        <button type="submit" class="submit">Submit</button>
+    </form>
+
+    <form method="post" action="/qbr/lost" class="_form_fields">
+        <h3>lost deal placholder</h3>
+        <button type="submit" class="submit">Submit</button>
+    </form>
+</body>
+</html>

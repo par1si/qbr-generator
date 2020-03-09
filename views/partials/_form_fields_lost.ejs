@@ -1,0 +1,45 @@
+<label>Company Name:</label>
+    <input type="text" name="companyName" id="company-name" placeholder="e.g. Optimizely, Inc." value=<%= lostDeal.companyName %> >
+<br>
+<label>Quarter Closed-Lost:</label>
+    <select class="quarter-closed" name= "fiscalQuarterClosed" id="quarter-closed" value=<%= lostDeal.fiscalQuarterClosed %>>
+        <option value="Q1" name="fiscalQuarterClosed" >Q1</option>
+        <option value="Q2" name="fiscalQuarterClosed" >Q2</option>
+        <option value="Q3" name="fiscalQuarterClosed" >Q3</option>
+        <option value="Q4" name="fiscalQuarterClosed" selected>Q4</option>
+    </select>
+<br>
+<label>Deal Type:</label>
+    <select class="deal-type" name= "dealType" id="deal-type" value=<%= lostDeal.dealType %>>
+        <option value="New" name="dealType" >New</option>
+        <option value="Horizontal Expansion" name="dealType" >Horizontal Expansion</option>
+        <option value="Vertical Expansion" name="dealType" >Vertical Expansion</option>
+    </select>
+<br>
+<label>Industry:</label>
+    <select class= "industry" name= "industry" id="industry" value=<%= lostDeal.indusry %>>
+        <option value="B2B Software" name="industry" >B2B Software</option>
+        <option value="Retail/eCommerce" name="industry" >Retail/eCommerce</option>
+        <option value="FinServ" name="industry" >FinServ</option>
+        <option value="Media" name="industry" >Media</option>
+        <option value="B2C Software" name="industry" >B2C Software</option>
+        <option value="Travel" name="industry" >Travel</option>
+        <option value="EdTech" name="industry" >EdTech</option>
+        <option value="Other" name="industry" >Other</option>
+    </select>
+<br>
+<label>ACV:</label>
+    <input type="number" name="ACV" id="acv" placeholder="e.g. $100,000" value=<%= lostDeal.ACV %> >
+<br>
+<label>Date That The Customer First Engaged with Optimizely:</label>
+    <input type="date" name="dateFirstEngaged" id="date-first-engaged" >
+<br>
+<label>Executive Involved:</label>
+    <select class= "executive-involved" name= "executiveInvolved" id="executive-involved" value=<%= lostDeal.executiveInvolved %></select>>
+            <option value="Yes" name="executiveInvolved" selected>Yes</option>
+            <option value="No" name="executiveInvolved">No</option>
+    </select>
+<br>
+<label>Main Competitor:</label>
+    <input type="text" name="mainCompetitor" id="main-competitor" placeholder="VWO" value=<%= lostDeal.mainCompetitor %>>
+<br>
