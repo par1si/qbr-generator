@@ -76,7 +76,7 @@ module.exports = function(app, passport) {
         const closedDeals = await ClosedDeal.find({ _userId: req.user.id }, null, { sort: { closedOn: 1 } }, function (err, docs) {
             if (err) return console.error(err);
         })
-        const lostDeals = await LostDeal.find({}, null, { sort: { closedOn: -1 } }, function (err, docs) {
+        const lostDeals = await LostDeal.find({ _userId: req.user.id }, null, { sort: { closedOn: -1 } }, function (err, docs) {
             if (err) return console.error(err);
           })
           let closeRateByACV = getCloseRateByACV(closedDeals, lostDeals);
@@ -101,7 +101,7 @@ module.exports = function(app, passport) {
               closedDeal: new ClosedDeal,
               lostDeals: lostDeals,
               lostDeal: new LostDeal
-              
+
             // add in rest of values below once they're set up in ejs
 
             /* ,
@@ -132,6 +132,21 @@ module.exports = function(app, passport) {
 
         // save and redirect to same page
         closedDeal.save().then(item => {
+            res.redirect('/qbr')
+        })
+        .catch(err => {
+            res.status(400).send('Unable to save entry to database.');
+        });
+    })
+
+    app.post('/qbr/lost', isLoggedIn, function(req, res) {
+        const lostDeal = new LostDeal(req.body)
+
+        // set userId on lostDeal
+        lostDeal._userId = req.user.id
+
+        // save and redirect to same page
+        lostDeal.save().then(item => {
             res.redirect('/qbr')
         })
         .catch(err => {
