@@ -4,19 +4,37 @@
 
                 <div class="page-header text-center">
                     <h1>Profile Page</h1>
-                    <a href="/logout">Logout</a>
+                    <a href="/logout" class="button">Logout</a>
                 </div>
             
                     <!-- LOCAL INFORMATION -->
                     
                         <div>
+                            <br>
                             <h3>Your information:</h3>
                                 <p>
-                                    <strong>id</strong>: <%= user._id %><br>
                                     <strong>email</strong>: <%= user.local.email %><br>
-                                    <strong>hashed password</strong>: <%= user.local.password %>
                                 </p>
-            
+                                <p>
+                                    <strong>quarterly quota</strong>: <%= user.userInfo.quota %>
+                                </p>
+                            <% if (user.userInfo.quota < 1) { %>
+                            <form action="/profile/<%= user.id %>?_method=PUT" method="POST">
+                                <label>Quarterly Quota:</label>
+                                <input type="number" name="quota">
+                                <button type="submit" class="button">Submit</button>
+                            </form>
+                            
+                            <% } else { %>
+                                <br><br>
+                            <form action="/profile/<%= user.id %>?_method=PUT" method="POST">
+                                <label>Email:</label>
+                                <input type="text" name="email">
+                                <label>Quarterly Quota:</label>
+                                <input type="number" name="quota">
+                                <button type="submit" class="button">Edit</button>
+                            </form>
+                        <% } %>
                         </div>
                     </div>
             

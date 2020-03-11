@@ -1,0 +1,22 @@
+<%- include('partials/_head') -%>
+<body>
+    <h1><%= lostDeal.companyName %>, at <%= lostDeal.ACV %>: </h1>
+            <div><p>Company Name = <a href="/<%= lostDeal.id %>"><%= lostDeal.companyName %></a></p></div>
+            <p>ACV = <%= lostDeal.ACV %></p>
+            <!-- This is where the edit field will go. -->
+            <%- include('partials/editLostDeal.ejs') %>
+            <%- include('partials/removeLostDeal.ejs') %>
+            </div>
+            <br>
+            <br>
+        </div>
+             
+    <br>
+    <br>
+
+    <%- include('partials/editLostDeal.ejs') %>
+    <%- include('partials/removeLostDeal.ejs') %>
+    
+    </div>
+</body>
+</html>

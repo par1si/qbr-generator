@@ -1,6 +1,7 @@
 // app/routes.js
-const ClosedDeal = require('../models/closedDeal')
+const ClosedDeal = require('../models/closedDeal');
 const LostDeal = require('../models/lostDeal');
+const User = require('../models/user');
 
 
 // Loading in baseline algorithms
@@ -94,7 +95,7 @@ module.exports = function(app, passport) {
           let lostDealMessage = `Your ${lostDeals.length} Lost Deal(s) this year:`
     
           // I need to replace the "262,500" number with a value from the database. Implement user routing first.
-          let quarterlyQuotaArray = getQuarterlyQuotaArray((237500 * 4), closedDealACVArray);
+          let quarterlyQuotaArray = getQuarterlyQuotaArray((req.user.userInfo.quota * 4), closedDealACVArray);
           
           res.render('qbr.ejs', {
             closedDeals: closedDeals,
@@ -118,6 +119,79 @@ module.exports = function(app, passport) {
     }
     })
 
+    // GET route for :id parameter
+    app.get('/:id', async (req, res) => {
+        try {
+        const closedDeal = await ClosedDeal.findById(req.params.id)
+        res.render('dealPage.ejs', {
+            closedDeal: closedDeal
+        })
+        } catch {
+        res.redirect('/')
+        }
+    });
+    
+    // GET route for :id parameter
+    app.get('/lost/:id', async (req, res) => {
+        try {
+        const lostDeal = await LostDeal.findById(req.params.id)
+        res.render('lostDealPage.ejs', {
+            lostDeal: lostDeal
+        })
+        } catch {
+        res.redirect('/')
+        }
+    });
+
+    app.get('/qbr/quarter/:quarter', isLoggedIn, async function(req, res) {
+        // GET route for root
+    try {
+        const closedDeals = await ClosedDeal.find({ _userId: req.user.id, fiscalQuarterClosed : `Q${req.params.quarter}` }, null, { sort: { closedOn: 1 } }, function (err, docs) {
+            if (err) return console.error(err);
+        })
+        const lostDeals = await LostDeal.find({ _userId: req.user.id, fiscalQuarterClosed : `Q${req.params.quarter}` }, null, { sort: { closedOn: -1 } }, function (err, docs) {
+            if (err) return console.error(err);
+          })
+          let closeRateByACV = getCloseRateByACV(closedDeals, lostDeals);
+          let closeRateByDeal = getCloseRateByDeal(closedDeals, lostDeals);
+          let customerNewSplitByDeal = getCustomerNewSplitByDeal(closedDeals, lostDeals);
+          let averageSalesCycleLength = getSalesCycleLength(closedDeals);
+          
+          let closedDealACVArray = getClosedDealACVArray(closedDeals);
+          let closedDealNames = getClosedDealNames(closedDeals);
+          let newBusinessACVTotal = getNewBusinessACVTotal(closedDeals);
+          let existingBusinessACVTotal = getExistingBusinessACVTotal(closedDeals); 
+    
+          // Won & Lost deal messages:
+          let wonDealMessage = `Your ${closedDeals.length} Won Deal(s) this year:`
+          let lostDealMessage = `Your ${lostDeals.length} Lost Deal(s) this year:`
+    
+          // I need to replace the "262,500" number with a value from the database. Implement user routing first.
+          let quarterlyQuotaArray = getQuarterlyQuotaArray((req.user.userInfo.quota * 4), closedDealACVArray);
+          
+          res.render('qbr.ejs', {
+            closedDeals: closedDeals,
+            closedDeal: new ClosedDeal,
+            lostDeals: lostDeals,
+            lostDeal: new LostDeal,
+            wonDealMessage: wonDealMessage,
+            lostDealMessage: lostDealMessage,
+            closeRateByACV: closeRateByACV,
+            closeRateByDeal: closeRateByDeal,
+            customerNewSplitByDeal: customerNewSplitByDeal,
+            averageSalesCycleLength: averageSalesCycleLength,
+            closedDealACVArray: closedDealACVArray,
+            closedDealNames: closedDealNames,
+            quarterlyQuotaArray: quarterlyQuotaArray,
+            newBusinessACVTotal: newBusinessACVTotal,
+            existingBusinessACVTotal: existingBusinessACVTotal
+            })
+    } catch {
+        res.send('error')
+    }
+    })
+
+    // POST route for /qbr
     app.post('/qbr', isLoggedIn, function(req, res) {
         const closedDeal = new ClosedDeal(req.body)
 
@@ -147,6 +221,95 @@ module.exports = function(app, passport) {
             res.status(400).send('Unable to save entry to database.');
         });
     })
+
+    // PUT route for user :id param
+    app.put('/profile/:id', isLoggedIn, async function (req, res) {
+        let user
+        try {
+        user = await User.findById(req.params.id)
+            user.userInfo.email = req.body.email
+            req.user.userInfo.quota = req.body.quota
+        await user.save()
+        res.redirect(`/profile`)
+        } catch {
+        res.send('Error updating user.')
+        }
+    })
+
+    // PUT route for :id param
+    app.put('/:id', async (req, res) => {
+        let closedDeal
+        try {
+        closedDeal = await ClosedDeal.findById(req.params.id)
+            closedDeal.companyName = req.body.companyName
+            closedDeal.fiscalQuarterClosed = req.body.fiscalQuarterClosed
+            closedDeal.industry = req.body.industry
+            closedDeal.dealType = req.body.dealType
+            closedDeal.termLength = req.body.termLength
+            closedDeal.ACV = req.body.ACV
+            closedDeal.multiYearRevenue = req.body.multiYearRevenue
+            closedDeal.servicesHours = req.body.servicesHours
+            closedDeal.closedOn = req.body.closedOn
+            closedDeal.dateFirstEngaged = req.body.dateFirstEngaged
+            closedDeal.mainCompetitor = req.body.mainCompetitor
+        await closedDeal.save()
+        res.redirect(`/${closedDeal.id}`)
+        } catch {
+        res.send('Error updating deal.')
+        }
+    });
+
+    // PUT route for lost/:id param
+    app.put('/lost/:id', async (req, res) => {
+        let lostDeal
+        try {
+          lostDeal = await LostDeal.findById(req.params.id)
+            lostDeal.companyName = req.body.companyName
+            lostDeal.industry = req.body.industry
+            lostDeal.dealType = req.body.dealType
+            lostDeal.ACV = req.body.ACV
+            lostDeal.dateFirstEngaged = req.body.dateFirstEngaged
+            lostDeal.mainCompetitor = req.body.mainCompetitor
+          await lostDeal.save()
+          res.redirect(`/${lostDeal.id}`)
+        } catch {
+          res.send('Error updating deal.')
+        }
+      });
+
+    // DELETE route
+        app.delete('/:id', async (req, res) => {
+        let closedDeal
+        try {
+        closedDeal = await ClosedDeal.findById(req.params.id)
+        await closedDeal.remove()
+        res.redirect('/')
+        } catch {
+        if (closedDeal == null) {
+            res.redirect('/')
+            console.log('Deal does not exist.')
+        } else {
+            res.send(`Something went wrong.`)
+        }
+        }
+    });
+    
+    // DELETE lost deal route
+    app.delete('/lost/:id', async (req, res) => {
+        let lostDeal
+        try {
+        lostDeal = await LostDeal.findById(req.params.id)
+        await lostDeal.remove()
+        res.redirect('/')
+        } catch {
+        if (lostDeal == null) {
+            res.redirect('/')
+            console.log('Deal does not exist.')
+        } else {
+            res.send(`Something went wrong.`)
+        }
+        }
+    });
 
     // =====================================
     // LOGOUT ==============================
