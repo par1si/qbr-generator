@@ -48,15 +48,18 @@
                 </div>
             <% }) %>
         </div>
-
-        <div class="metrics deal-content-container">
-            <h1>Baseline Metrics:</h1>
-            <h3>Close Rate by deal: <%= closeRateByDeal %></h3>
-            <h3>Close Rate by ACV: <%= closeRateByACV %></h3>
-            <h3>Customer/New split by deal: <%= customerNewSplitByDeal %></h3>
-            <h3>Average sales cycle length, including initial prospective conversations: <%= averageSalesCycleLength %> days.</h3>
-        </div>
     </div>
+    </div>
+
+    <div class="metrics-container">
+        <div class="metrics">
+            <h1><strong>Annualized Metrics:</strong></h1>
+            <br>
+            <p><strong>Close Rate by deal:</strong> <%= closeRateByDeal %></p>
+            <p><strong>Close Rate by ACV:</strong> <%= closeRateByACV %></p>
+            <p><strong>Customer/New split by deal:</strong> <%= customerNewSplitByDeal %></p>
+            <p><strong>Average sales cycle length:</strong> <%= averageSalesCycleLength %> days.</p>
+        </div>
     </div>
 
     <!-- ====================== -->

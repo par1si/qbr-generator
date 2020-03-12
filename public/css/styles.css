@@ -1,5 +1,5 @@
 .hero {
-    height: 100vh;
+    height: 80vh;
     width: 100%;
 
     background-image: url(../images/hero.jpg);
@@ -12,6 +12,10 @@
 
 h2 {
     margin: 0;
+}
+
+p {
+    font-size: 18px;
 }
 
 .hero-subtitle {
@@ -111,6 +115,9 @@ input {
     border-radius: 5px;
     border: solid 1px grey;
     padding: 0 .5rem 0 .5rem;
+    outline: none;
+
+    transition: box-shadow .25s;
 }
 
 select {
@@ -118,6 +125,28 @@ select {
     border-radius: 5px;
     border: solid 1px grey;
     padding: 0 .5rem 0 .5rem;
+    outline: none;
+
+    transition: box-shadow .25s;
+}
+
+input:focus {
+    box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
+}
+
+select:focus {
+    box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="date"]
+{
+    -webkit-appearance: none;
 }
 
 .deal-information-wrapper {
@@ -127,8 +156,7 @@ select {
 }
 
 .deal-information-container {
-    display: inline-flex;
-    height: auto;
+    display: inline;
 
     margin: auto;
     
@@ -138,6 +166,9 @@ select {
 
 .deal-content-container {
     display: inline-block;
+
+    vertical-align: top;
+
     margin: 3rem;
 
     border: 1px solid #616161;
@@ -149,6 +180,12 @@ select {
     min-width: 20%;
 
     padding: 2rem;
+}
+
+.metrics-container {
+    display: block;
+    margin-top: 3rem;
+    text-align: center;
 }
 
 .chart-container {

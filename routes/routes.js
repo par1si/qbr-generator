@@ -1,4 +1,4 @@
-// app/routes.js
+// routes.js
 const ClosedDeal = require('../models/closedDeal');
 const LostDeal = require('../models/lostDeal');
 const User = require('../models/user');
@@ -144,7 +144,6 @@ module.exports = function(app, passport) {
     });
 
     app.get('/qbr/quarter/:quarter', isLoggedIn, async function(req, res) {
-        // GET route for root
     try {
         const closedDeals = await ClosedDeal.find({ _userId: req.user.id, fiscalQuarterClosed : `Q${req.params.quarter}` }, null, { sort: { closedOn: 1 } }, function (err, docs) {
             if (err) return console.error(err);

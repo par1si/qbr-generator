@@ -1,8 +1,8 @@
 <label>Company Name:</label>
-    <input type="text" name="companyName" id="company-name" placeholder="e.g. Optimizely, Inc." value=<%= closedDeal.companyName %> >
+    <input type="text" name="companyName" id="company-name" placeholder="e.g. Optimizely, Inc." autocomplete="off" value=<%= closedDeal.companyName %> >
 <br>
 <label>Quarter Closed:</label>
-    <select class="quarter-closed" name= "fiscalQuarterClosed" id="quarter-closed" value=<%= closedDeal.fiscalQuarterClosed %>>
+    <select class="quarter-closed" name= "fiscalQuarterClosed" id="quarter-closed" autocomplete="off" value=<%= closedDeal.fiscalQuarterClosed %>>
         <option value="Q1" name="fiscalQuarterClosed" >Q1</option>
         <option value="Q2" name="fiscalQuarterClosed" >Q2</option>
         <option value="Q3" name="fiscalQuarterClosed" >Q3</option>
@@ -10,14 +10,14 @@
     </select>
 <br>
 <label>Deal Type:</label>
-    <select class="deal-type" name= "dealType" id="deal-type" value=<%= closedDeal.dealType %>>
+    <select class="deal-type" name= "dealType" id="deal-type" autocomplete="off"  value=<%= closedDeal.dealType %>>
         <option value="New" name="dealType" >New</option>
         <option value="Horizontal Expansion" name="dealType" >Horizontal Expansion</option>
         <option value="Vertical Expansion" name="dealType" >Vertical Expansion</option>
     </select>
 <br>
 <label>Industry:</label>
-    <select class= "industry" name= "industry" id="industry" value=<%= closedDeal.indusry %>>
+    <select class= "industry" name= "industry" id="industry" autocomplete="off" value=<%= closedDeal.indusry %>>
         <option value="B2B Software" name="industry" >B2B Software</option>
         <option value="Retail/eCommerce" name="industry" >Retail/eCommerce</option>
         <option value="FinServ" name="industry" >FinServ</option>
@@ -29,33 +29,33 @@
     </select>
 <br>
 <label>Closed On:</label>
-    <input type="date" name="closedOn" id="closed-on" placeholder="e.g. 2/15/2020" >
+    <input type="date" name="closedOn" id="closed-on" autocomplete="off" placeholder="e.g. 2/15/2020" >
 <br>
 <label>Term Length in Years:</label>
-    <select class= "current-term-length" name= "termLength" id="current-term-length" value=<%= closedDeal.termLength %>>
+    <select class= "current-term-length" name= "termLength" autocomplete="off"  id="current-term-length" value=<%= closedDeal.termLength %>>
         <option value="1" name="termLength" >One Year</option>
         <option value="2" name="termLength">Two Year</option>
         <option value="3" name="termLength">Three Year</option>
     </select>
 <br>
 <label>ACV:</label>
-    <input type="number" name="ACV" id="acv" placeholder="e.g. $100,000" value=<%= closedDeal.ACV %> >
+    <input type="number" name="ACV" id="acv" placeholder="e.g. $100,000" autocomplete="off"  value=<%= closedDeal.ACV %> >
 <br>
 <label>Revenue in Years 2+:</label>
-    <input type="number" name="multiYearRevenue" id="current-multi-year-revenue" placeholder="e.g. $100,000" value=<%= closedDeal.multiYearRevenue %> >
+    <input type="number" name="multiYearRevenue" id="current-multi-year-revenue" placeholder="e.g. $100,000" autocomplete="off"  value=<%= closedDeal.multiYearRevenue %> >
 <br>
 <label>Services Hours:</label>
-    <input type="number" name="servicesHours" id="current-services-hours" placeholder="e.g. 80" value=<%= closedDeal.servicesHours %>>
+    <input type="number" name="servicesHours" id="current-services-hours" placeholder="e.g. 80" autocomplete="off"  value=<%= closedDeal.servicesHours %>>
 <br>
-<label>Date That The Customer First Engaged with Optimizely:</label>
-    <input type="date" name="dateFirstEngaged" id="date-first-engaged" >
+<label>Date That The Customer First Engaged:</label>
+    <input type="date" name="dateFirstEngaged" autocomplete="off" id="date-first-engaged" >
 <br>
 <label>Executive Involved:</label>
-    <select class= "executive-involved" name= "executiveInvolved" id="executive-involved" value=<%= closedDeal.executiveInvolved %></select>>
+    <select class= "executive-involved" name= "executiveInvolved" id="executive-involved" autocomplete="off" value=<%= closedDeal.executiveInvolved %></select>>
             <option value="Yes" name="executiveInvolved" selected>Yes</option>
             <option value="No" name="executiveInvolved">No</option>
     </select>
 <br>
 <label>Main Competitor:</label>
-    <input type="text" name="mainCompetitor" id="main-competitor" placeholder="VWO" value=<%= closedDeal.mainCompetitor %>>
+    <input type="text" name="mainCompetitor" id="main-competitor" autocomplete="off"  placeholder="VWO" value=<%= closedDeal.mainCompetitor %>>
 <br>
