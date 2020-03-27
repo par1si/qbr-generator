@@ -44,7 +44,22 @@ const closedDealSchema = mongoose.Schema({
     },
     fiscalQuarterClosed: {
         type: 'String'
+    },
+    fiscalYear: {
+        type: 'String'
     }
 });
+
+closedDealSchema.methods.getFiscalYear = function(date) {
+    month = date.getMonth()
+    year = date.getFullYear()
+    if (month < 1) {
+        return `FY${year}`
+    } else {
+        return `FY${year + 1}`
+    }
+};
+
+
 
 module.exports = mongoose.model('ClosedDeal', closedDealSchema);

@@ -80,6 +80,7 @@ module.exports = function(app, passport) {
         const lostDeals = await LostDeal.find({ _userId: req.user.id }, null, { sort: { closedOn: -1 } }, function (err, docs) {
             if (err) return console.error(err);
           })
+
           let closeRateByACV = getCloseRateByACV(closedDeals, lostDeals);
           let closeRateByDeal = getCloseRateByDeal(closedDeals, lostDeals);
           let customerNewSplitByDeal = getCustomerNewSplitByDeal(closedDeals, lostDeals);
@@ -88,7 +89,8 @@ module.exports = function(app, passport) {
           let closedDealACVArray = getClosedDealACVArray(closedDeals);
           let closedDealNames = getClosedDealNames(closedDeals);
           let newBusinessACVTotal = getNewBusinessACVTotal(closedDeals);
-          let existingBusinessACVTotal = getExistingBusinessACVTotal(closedDeals); 
+          // Need to fix the logic on existingBusinessACVTotal -- if no deals, it breaks the app.
+          let existingBusinessACVTotal = getExistingBusinessACVTotal(closedDeals);
     
           // Won & Lost deal messages:
           let wonDealMessage = `Your ${closedDeals.length} Won Deal(s) this year:`
@@ -145,12 +147,13 @@ module.exports = function(app, passport) {
 
     app.get('/qbr/quarter/:quarter', isLoggedIn, async function(req, res) {
     try {
-        const closedDeals = await ClosedDeal.find({ _userId: req.user.id, fiscalQuarterClosed : `Q${req.params.quarter}` }, null, { sort: { closedOn: 1 } }, function (err, docs) {
+        const closedDeals = await ClosedDeal.find({ _userId: req.user.id, fiscalQuarterClosed: `Q${req.params.quarter}` }, null, { sort: { closedOn: 1 } }, function (err, docs) {
             if (err) return console.error(err);
         })
-        const lostDeals = await LostDeal.find({ _userId: req.user.id, fiscalQuarterClosed : `Q${req.params.quarter}` }, null, { sort: { closedOn: -1 } }, function (err, docs) {
+        const lostDeals = await LostDeal.find({ _userId: req.user.id, fiscalQuarterClosed: `Q${req.params.quarter}` }, null, { sort: { closedOn: -1 } }, function (err, docs) {
             if (err) return console.error(err);
           })
+          console.log(closedDeals)
           let closeRateByACV = getCloseRateByACV(closedDeals, lostDeals);
           let closeRateByDeal = getCloseRateByDeal(closedDeals, lostDeals);
           let customerNewSplitByDeal = getCustomerNewSplitByDeal(closedDeals, lostDeals);
@@ -162,8 +165,8 @@ module.exports = function(app, passport) {
           let existingBusinessACVTotal = getExistingBusinessACVTotal(closedDeals); 
     
           // Won & Lost deal messages:
-          let wonDealMessage = `Your ${closedDeals.length} Won Deal(s) this year:`
-          let lostDealMessage = `Your ${lostDeals.length} Lost Deal(s) this year:`
+          let wonDealMessage = `Your ${closedDeals.length} Won Deal(s) this quarter:`
+          let lostDealMessage = `Your ${lostDeals.length} Lost Deal(s) this quarter:`
     
           // I need to replace the "262,500" number with a value from the database. Implement user routing first.
           let quarterlyQuotaArray = getQuarterlyQuotaArray((req.user.userInfo.quota * 4), closedDealACVArray);
@@ -196,6 +199,7 @@ module.exports = function(app, passport) {
 
         // set userId on closedDeal
         closedDeal._userId = req.user.id
+        closedDeal.fiscalYear = closedDeal.getFiscalYear(closedDeal.closedOn)
 
         // save and redirect to same page
         closedDeal.save().then(item => {
