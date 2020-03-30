@@ -29,9 +29,25 @@ const lostDealSchema = mongoose.Schema({
         type: 'Boolean',
         default: false
     },
+    closedOn: {
+        type: 'String'
+    },
     fiscalQuarterClosed: {
+        type: 'String'
+    },
+    fiscalYear: {
         type: 'String'
     }
 });
+
+lostDealSchema.methods.getFiscalYear = function(date) {
+    month = date.getMonth()
+    year = date.getFullYear()
+    if (month < 1) {
+        return `FY${year}`
+    } else {
+        return `FY${year + 1}`
+    }
+};
 
 module.exports = mongoose.model('LostDeal', lostDealSchema);

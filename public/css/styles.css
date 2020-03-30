@@ -45,9 +45,26 @@ button {
     border: .25px dashed white;
 }
 
+.nav-container {
+    text-align: center;
+    margin: 5rem 0 2rem 0;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    color: #000000;
+}
+  
+li {
+    font-size: 24px;
+    display: inline;
+    padding: 1.5rem;
+}
+
 .container {
     text-align: center;
-    margin-top: 20%;
+    margin-top: 10%;
 }
 
 .button {

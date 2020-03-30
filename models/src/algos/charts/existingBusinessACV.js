@@ -8,6 +8,7 @@ const existingBusinessACVTotal = (closedDeals) => {
     let arrLength = existingDealArray.length
     let newArr = []
     
+        if (existingDealArray.length != 0) {
 
         for (i = 0; i < arrLength; i++) {
             if (existingDealArray[i] !== 'New') {
@@ -15,11 +16,18 @@ const existingBusinessACVTotal = (closedDeals) => {
                 newArr.push(existingDealACVArray[i])
             }
         }
+
+    
     // Reducer
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
     // Reducing newDealACVArray
     let existingBusinessTotal = newArr.reduce(reducer);
         return existingBusinessTotal
+
+        } else {
+            return 0
+        }
+        
     } else {
         return 0
     }

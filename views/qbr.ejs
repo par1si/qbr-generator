@@ -4,7 +4,19 @@
     <div class="hero">
         <div class="hero-subtitle">
             <h2>QBR Generator</h2>
-            <button class="hero-button"><a href="#closed-won-deal-input">Get Started</a></button>
+            <button class="hero-button" id="hero-button"><a href="#closed-won-deal-input">Get Started</a></button>
+        </div>
+    </div>
+
+    <div class="nav-container">
+        <div>
+            <h2>Choose your time period:</h2>
+                <ul>
+                    <li><a href="/qbr/quarter/1">Q1</a></li>
+                    <li><a href="/qbr/quarter/2">Q2</a></li>
+                    <li><a href="/qbr/quarter/3">Q3</a></li>
+                    <li><a href="/qbr/quarter/4">Q4</a></li>
+                </ul>
         </div>
     </div>
 
@@ -51,9 +63,10 @@
     </div>
     </div>
 
+    <!-- Add in "This [Time-Period]'s Metrics here, side-by-side -->
     <div class="metrics-container">
         <div class="metrics">
-            <h1><strong>Annualized Metrics:</strong></h1>
+            <h1><strong>All-Time Metrics:</strong></h1>
             <br>
             <p><strong>Close Rate by deal:</strong> <%= closeRateByDeal %></p>
             <p><strong>Close Rate by ACV:</strong> <%= closeRateByACV %></p>
