@@ -12,22 +12,24 @@ const existingBusinessACVTotal = (closedDeals) => {
 
         for (i = 0; i < arrLength; i++) {
             if (existingDealArray[i] !== 'New') {
-                /* existingDealArray.splice(i, 1) */
                 newArr.push(existingDealACVArray[i])
             }
         }
+    }
 
     
     // Reducer
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
-    // Reducing newDealACVArray
-    let existingBusinessTotal = newArr.reduce(reducer);
-        return existingBusinessTotal
 
+    // Reducing newDealACVArray, as long as it has values in it
+        if (newArr.length > 0) {
+            let existingBusinessTotal = newArr.reduce(reducer);
+            return existingBusinessTotal
         } else {
             return 0
         }
         
+    // Returning '0' to the chart if there are no deals to display.
     } else {
         return 0
     }

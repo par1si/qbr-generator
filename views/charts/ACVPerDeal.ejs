@@ -1,0 +1,46 @@
+<div class="chartOne chart">
+    <h3>ACV Per Deal:</h3> 
+    <canvas id="chartOne"></canvas>
+    <script>
+    var ctx = document.getElementById('chartOne').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: <%- JSON.stringify(closedDealNames) %>,
+            datasets: [{
+                label: 'ACV on Closed-Won Deals by Quarter',
+                data: [<%- closedDealACVArray %>],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }, {
+                label: 'Quarterly Quota',
+                data: [<%- quarterlyQuotaArray %>],
+                pointRadius: 0,
+                backgroundColor: [
+                    'rgba(0, 0, 0, 0)'
+                ],
+                borderColor: [
+                    'rgba(0, 0, 0)'
+                ],
+                borderWidth: 1
+            }
+            ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+        },
+    });
+    </script>
+
+</div>

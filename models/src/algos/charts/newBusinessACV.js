@@ -10,11 +10,20 @@ const newBusinessACVArray = (closedDeals) => {
                 newDealACVArray.splice(i, 1)
             }
         }
+
     // Reducer
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
-    // Reducing newDealACVArray
-    let newBusinessTotal = newDealACVArray.reduce(reducer);
-        return newBusinessTotal
+
+
+        // Reducing newDealACVArray, as long as it has values in it.
+        if (newBusinessACVArray.length > 0){
+        let newBusinessTotal = newDealACVArray.reduce(reducer);
+            return newBusinessTotal
+        } else {
+            return 0
+        }
+
+    // Returning 0 if there are no closed deals.
     } else {
         return 0
     }

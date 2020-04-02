@@ -1,7 +1,6 @@
-module.exports = function() {
-    const today = new Date();
-    month = today.getMonth()
-    year = today.getFullYear()
+module.exports = function(date) {
+    month = date.getMonth()
+    year = date.getFullYear()
     if (month < 1) {
         return `FY${year}`
     } else {

@@ -19,7 +19,8 @@ const getExistingBusinessACVTotal = require('../models/src/algos/charts/existing
 
 // Loading in fiscal year function
 const getFiscalYear = require('../models/src/algos/currentYear');
-const currentYear = getFiscalYear();
+const today = new Date();
+let currentYear = getFiscalYear(today);
 
 module.exports = function(app, passport) {
 
@@ -93,18 +94,19 @@ module.exports = function(app, passport) {
           })
 
          
-          // Calculate algos
+          // Values to calculate all-time algos
           let closeRateByACV = getCloseRateByACV(closedDeals, lostDeals);
           let closeRateByDeal = getCloseRateByDeal(closedDeals, lostDeals);
           let customerNewSplitByDeal = getCustomerNewSplitByDeal(closedDeals, lostDeals);
           let averageSalesCycleLength = getSalesCycleLength(closedDeals);
           
-          let closedDealACVArray = getClosedDealACVArray(closedDeals);
-          let closedDealNames = getClosedDealNames(closedDeals);
+          // Charting values for ACV Per Deal chart
+          let closedDealACVArray = getClosedDealACVArray(thisYearsClosedDeals);
+          let closedDealNames = getClosedDealNames(thisYearsClosedDeals);
 
           // These functions are still broken if there are no existing business deals closed.
-          let newBusinessACVTotal = getNewBusinessACVTotal(closedDeals);
-          let existingBusinessACVTotal = getExistingBusinessACVTotal(closedDeals);
+          let newBusinessACVTotal = getNewBusinessACVTotal(thisYearsClosedDeals);
+          let existingBusinessACVTotal = getExistingBusinessACVTotal(thisYearsClosedDeals);
     
           // Won & Lost deal messages:
           let wonDealMessage = `Your ${thisYearsClosedDeals.length} Won Deal(s) this year:`
