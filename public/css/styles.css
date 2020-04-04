@@ -183,7 +183,8 @@ input[type="date"]
 
 .deal-content-container {
     display: inline-block;
-
+    height: 310px;
+    overflow: scroll;
     vertical-align: top;
 
     margin: 3rem;

@@ -74,7 +74,63 @@ module.exports = function(app, passport) {
     // =====================================
     // Routing for QBR page ================
     // =====================================
-    app.get(`/${currentYear}/qbr`, isLoggedIn, async function(req, res) {
+    app.get(`/qbr`, isLoggedIn, async function(req, res) {
+        // GET route for root
+    try {
+        const closedDeals = await ClosedDeal.find({ _userId: req.user.id }, null, { sort: { closedOn: 1 } }, function (err, docs) {
+            if (err) return console.error(err);
+        })
+        const lostDeals = await LostDeal.find({ _userId: req.user.id }, null, { sort: { closedOn: -1 } }, function (err, docs) {
+            if (err) return console.error(err);
+          })
+         
+          // Values to calculate all-time algos
+          let closeRateByACV = getCloseRateByACV(closedDeals, lostDeals);
+          let closeRateByDeal = getCloseRateByDeal(closedDeals, lostDeals);
+          let customerNewSplitByDeal = getCustomerNewSplitByDeal(closedDeals, lostDeals);
+          let averageSalesCycleLength = getSalesCycleLength(closedDeals);
+          
+          // Charting values for ACV Per Deal chart
+          let closedDealACVArray = getClosedDealACVArray(closedDeals);
+          let closedDealNames = getClosedDealNames(closedDeals);
+
+          // These functions are still broken if there are no existing business deals closed.
+          let newBusinessACVTotal = getNewBusinessACVTotal(closedDeals);
+          let existingBusinessACVTotal = getExistingBusinessACVTotal(closedDeals);
+    
+          // Won & Lost deal messages:
+          let wonDealMessage = `Your ${thisYearsClosedDeals.length} Won Deal(s) this year:`
+          let lostDealMessage = `Your ${thisYearsLostDeals.length} Lost Deal(s) this year:`
+    
+          let quarterlyQuotaArray = getQuarterlyQuotaArray((req.user.userInfo.quota * 4), closedDealACVArray);
+
+          
+          res.render('qbr.ejs', {
+            closedDeals: thisYearsClosedDeals,
+            closedDeal: new ClosedDeal,
+            lostDeals: thisYearsLostDeals,
+            lostDeal: new LostDeal,
+            wonDealMessage: wonDealMessage,
+            lostDealMessage: lostDealMessage,
+            closeRateByACV: closeRateByACV,
+            closeRateByDeal: closeRateByDeal,
+            customerNewSplitByDeal: customerNewSplitByDeal,
+            averageSalesCycleLength: averageSalesCycleLength,
+            closedDealACVArray: closedDealACVArray,
+            closedDealNames: closedDealNames,
+            quarterlyQuotaArray: quarterlyQuotaArray,
+            newBusinessACVTotal: newBusinessACVTotal,
+            existingBusinessACVTotal: existingBusinessACVTotal,
+            currentYear: currentYear
+            })
+        } catch {
+            res.send('error')
+        }
+    })
+
+
+
+    app.get(`/:year/qbr`, isLoggedIn, async function(req, res) {
         // GET route for root
     try {
         const closedDeals = await ClosedDeal.find({ _userId: req.user.id }, null, { sort: { closedOn: 1 } }, function (err, docs) {
@@ -130,7 +186,8 @@ module.exports = function(app, passport) {
             closedDealNames: closedDealNames,
             quarterlyQuotaArray: quarterlyQuotaArray,
             newBusinessACVTotal: newBusinessACVTotal,
-            existingBusinessACVTotal: existingBusinessACVTotal
+            existingBusinessACVTotal: existingBusinessACVTotal,
+            currentYear: currentYear
             })
         } catch {
             res.send('error')
@@ -161,24 +218,41 @@ module.exports = function(app, passport) {
         }
     });
 
-    app.get(`/${currentYear}/qbr/quarter/:quarter`, isLoggedIn, async function(req, res) {
+    // GET route for qbr/quarter
+    app.get(`/qbr/quarter/:quarter`, isLoggedIn, async function(req, res) {
     try {
-        const closedDeals = await ClosedDeal.find({ _userId: req.user.id, fiscalQuarterClosed: `Q${req.params.quarter}` }, null, { sort: { closedOn: 1 } }, function (err, docs) {
+        const allTimeClosedDeals = await ClosedDeal.find({ _userId: req.user.id, fiscalQuarterClosed: `Q${req.params.quarter}` }, null, { sort: { closedOn: 1 } }, function (err, docs) {
             if (err) return console.error(err);
         })
-        const lostDeals = await LostDeal.find({ _userId: req.user.id, fiscalQuarterClosed: `Q${req.params.quarter}` }, null, { sort: { closedOn: -1 } }, function (err, docs) {
+        const allTimeLostDeals = await LostDeal.find({ _userId: req.user.id, fiscalQuarterClosed: `Q${req.params.quarter}` }, null, { sort: { closedOn: -1 } }, function (err, docs) {
             if (err) return console.error(err);
-          })
+        })
+        
+        let thisYearsClosedDeals = allTimeClosedDeals.filter(function (obj) {
+            return obj.fiscalYear === currentYear
+        })
 
-          let closeRateByACV = getCloseRateByACV(closedDeals, lostDeals);
-          let closeRateByDeal = getCloseRateByDeal(closedDeals, lostDeals);
-          let customerNewSplitByDeal = getCustomerNewSplitByDeal(closedDeals, lostDeals);
-          let averageSalesCycleLength = getSalesCycleLength(closedDeals);
+        let thisYearsLostDeals = allTimeLostDeals.filter(function (obj) {
+        return obj.fiscalYear === currentYear
+        })
+
+        let closedDeals = thisYearsClosedDeals.filter(function (obj) {
+            return obj.fiscalQuarterClosed === req.params.quarter
+        })
+
+        let lostDeals = thisYearsLostDeals.filter(function (obj) {
+            return obj.fiscalQuarterClosed === req.params.quarter
+        })
+
+          let closeRateByACV = getCloseRateByACV(allTimeClosedDeals, allTimeLostDeals);
+          let closeRateByDeal = getCloseRateByDeal(allTimeClosedDeals, allTimeLostDeals);
+          let customerNewSplitByDeal = getCustomerNewSplitByDeal(allTimeClosedDeals, allTimeLostDeals);
+          let averageSalesCycleLength = getSalesCycleLength(allTimeClosedDeals, allTimeLostDeals);
           
-          let closedDealACVArray = getClosedDealACVArray(closedDeals);
-          let closedDealNames = getClosedDealNames(closedDeals);
-          let newBusinessACVTotal = getNewBusinessACVTotal(closedDeals);
-          let existingBusinessACVTotal = getExistingBusinessACVTotal(closedDeals); 
+          let closedDealACVArray = getClosedDealACVArray(thisYearsClosedDeals);
+          let closedDealNames = getClosedDealNames(thisYearsClosedDeals);
+          let newBusinessACVTotal = getNewBusinessACVTotal(thisYearsClosedDeals);
+          let existingBusinessACVTotal = getExistingBusinessACVTotal(thisYearsClosedDeals); 
     
           // Won & Lost deal messages:
           let wonDealMessage = `Your ${closedDeals.length} Won Deal(s) this quarter:`
@@ -202,12 +276,20 @@ module.exports = function(app, passport) {
             closedDealNames: closedDealNames,
             quarterlyQuotaArray: quarterlyQuotaArray,
             newBusinessACVTotal: newBusinessACVTotal,
-            existingBusinessACVTotal: existingBusinessACVTotal
+            existingBusinessACVTotal: existingBusinessACVTotal,
+            currentYear: currentYear
             })
     } catch {
         res.send('error')
     }
     })
+
+    // POST route for /year
+    app.post('/year', isLoggedIn, function(req, res) {
+        currentYear = req.body.year
+        res.redirect(`/${currentYear}/qbr`)
+    })
+
 
     // POST route for /qbr
     app.post('/qbr', isLoggedIn, function(req, res) {
