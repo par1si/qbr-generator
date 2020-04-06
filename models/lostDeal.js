@@ -30,7 +30,7 @@ const lostDealSchema = mongoose.Schema({
         default: false
     },
     closedOn: {
-        type: 'String'
+        type: Date,
     },
     fiscalQuarterClosed: {
         type: 'String'

@@ -75,6 +75,8 @@ module.exports = function(app, passport) {
     // Routing for QBR page ================
     // =====================================
     app.get(`/qbr`, isLoggedIn, async function(req, res) {
+        currentYear = req.params.year
+        currentQuarter = req.params.quarter
         // GET route for root
     try {
         const closedDeals = await ClosedDeal.find({ _userId: req.user.id }, null, { sort: { closedOn: 1 } }, function (err, docs) {
@@ -99,16 +101,16 @@ module.exports = function(app, passport) {
           let existingBusinessACVTotal = getExistingBusinessACVTotal(closedDeals);
     
           // Won & Lost deal messages:
-          let wonDealMessage = `Your ${thisYearsClosedDeals.length} Won Deal(s) this year:`
-          let lostDealMessage = `Your ${thisYearsLostDeals.length} Lost Deal(s) this year:`
+          let wonDealMessage = `Your ${closedDeals.length} Won Deal(s):`
+          let lostDealMessage = `Your ${lostDeals.length} Lost Deal(s):`
     
           let quarterlyQuotaArray = getQuarterlyQuotaArray((req.user.userInfo.quota * 4), closedDealACVArray);
 
           
           res.render('qbr.ejs', {
-            closedDeals: thisYearsClosedDeals,
+            closedDeals: closedDeals,
             closedDeal: new ClosedDeal,
-            lostDeals: thisYearsLostDeals,
+            lostDeals: lostDeals,
             lostDeal: new LostDeal,
             wonDealMessage: wonDealMessage,
             lostDealMessage: lostDealMessage,
@@ -121,7 +123,8 @@ module.exports = function(app, passport) {
             quarterlyQuotaArray: quarterlyQuotaArray,
             newBusinessACVTotal: newBusinessACVTotal,
             existingBusinessACVTotal: existingBusinessACVTotal,
-            currentYear: currentYear
+            currentYear: currentYear,
+            currentQuarter: currentQuarter
             })
         } catch {
             res.send('error')
@@ -131,50 +134,57 @@ module.exports = function(app, passport) {
 
 
     app.get(`/:year/qbr`, isLoggedIn, async function(req, res) {
+        currentYear = req.params.year
+        currentQuarter = req.params.quarter
         // GET route for root
     try {
-        const closedDeals = await ClosedDeal.find({ _userId: req.user.id }, null, { sort: { closedOn: 1 } }, function (err, docs) {
+        const allTimeClosedDeals = await ClosedDeal.find({ _userId: req.user.id }, null, { sort: { closedOn: 1 } }, function (err, docs) {
             if (err) return console.error(err);
         })
-        const lostDeals = await LostDeal.find({ _userId: req.user.id }, null, { sort: { closedOn: -1 } }, function (err, docs) {
+        const allTimeLostDeals = await LostDeal.find({ _userId: req.user.id }, null, { sort: { closedOn: -1 } }, function (err, docs) {
             if (err) return console.error(err);
           })
 
           // Filter closed deals to only display the deals closed this fiscal year. Do this with
-          let thisYearsClosedDeals = closedDeals.filter(function (obj) {
+          let closedDeals = allTimeClosedDeals.filter(function (obj) {
             return obj.fiscalYear === currentYear
           })
 
-          let thisYearsLostDeals = lostDeals.filter(function (obj) {
+          let lostDeals = allTimeLostDeals.filter(function (obj) {
             return obj.fiscalYear === currentYear
           })
 
          
           // Values to calculate all-time algos
-          let closeRateByACV = getCloseRateByACV(closedDeals, lostDeals);
-          let closeRateByDeal = getCloseRateByDeal(closedDeals, lostDeals);
-          let customerNewSplitByDeal = getCustomerNewSplitByDeal(closedDeals, lostDeals);
-          let averageSalesCycleLength = getSalesCycleLength(closedDeals);
+          let closeRateByACV = getCloseRateByACV(allTimeClosedDeals, allTimeLostDeals);
+          let closeRateByDeal = getCloseRateByDeal(allTimeClosedDeals, allTimeLostDeals);
+          let customerNewSplitByDeal = getCustomerNewSplitByDeal(allTimeClosedDeals, allTimeLostDeals);
+          let averageSalesCycleLength = getSalesCycleLength(allTimeClosedDeals);
+
+          let annualCloseRateByACV = getCloseRateByACV(closedDeals, lostDeals);
+          let annualCloseRateByDeal = getCloseRateByDeal(closedDeals, lostDeals);
+          let annualCustomerNewSplitByDeal = getCustomerNewSplitByDeal(closedDeals, lostDeals);
+          let annualAverageSalesCycleLength = getSalesCycleLength(closedDeals, lostDeals);
           
           // Charting values for ACV Per Deal chart
-          let closedDealACVArray = getClosedDealACVArray(thisYearsClosedDeals);
-          let closedDealNames = getClosedDealNames(thisYearsClosedDeals);
+          let closedDealACVArray = getClosedDealACVArray(closedDeals);
+          let closedDealNames = getClosedDealNames(closedDeals);
 
           // These functions are still broken if there are no existing business deals closed.
-          let newBusinessACVTotal = getNewBusinessACVTotal(thisYearsClosedDeals);
-          let existingBusinessACVTotal = getExistingBusinessACVTotal(thisYearsClosedDeals);
+          let newBusinessACVTotal = getNewBusinessACVTotal(closedDeals);
+          let existingBusinessACVTotal = getExistingBusinessACVTotal(closedDeals);
     
           // Won & Lost deal messages:
-          let wonDealMessage = `Your ${thisYearsClosedDeals.length} Won Deal(s) this year:`
-          let lostDealMessage = `Your ${thisYearsLostDeals.length} Lost Deal(s) this year:`
+          let wonDealMessage = `Your ${closedDeals.length} Won Deal(s) this year:`
+          let lostDealMessage = `Your ${lostDeals.length} Lost Deal(s) this year:`
     
           let quarterlyQuotaArray = getQuarterlyQuotaArray((req.user.userInfo.quota * 4), closedDealACVArray);
 
           
           res.render('qbr.ejs', {
-            closedDeals: thisYearsClosedDeals,
+            closedDeals: closedDeals,
             closedDeal: new ClosedDeal,
-            lostDeals: thisYearsLostDeals,
+            lostDeals: lostDeals,
             lostDeal: new LostDeal,
             wonDealMessage: wonDealMessage,
             lostDealMessage: lostDealMessage,
@@ -182,6 +192,10 @@ module.exports = function(app, passport) {
             closeRateByDeal: closeRateByDeal,
             customerNewSplitByDeal: customerNewSplitByDeal,
             averageSalesCycleLength: averageSalesCycleLength,
+            annualCloseRateByACV: annualCloseRateByACV,
+            annualCloseRateByDeal: annualCloseRateByDeal,
+            annualCustomerNewSplitByDeal: annualCustomerNewSplitByDeal,
+            annualAverageSalesCycleLength: annualAverageSalesCycleLength,
             closedDealACVArray: closedDealACVArray,
             closedDealNames: closedDealNames,
             quarterlyQuotaArray: quarterlyQuotaArray,
@@ -219,35 +233,46 @@ module.exports = function(app, passport) {
     });
 
     // GET route for qbr/quarter
-    app.get(`/qbr/quarter/:quarter`, isLoggedIn, async function(req, res) {
+    app.get(`/:year/qbr/quarter/:quarter`, isLoggedIn, async function(req, res) {
+        let currentQuarter = req.params.quarter
     try {
-        const allTimeClosedDeals = await ClosedDeal.find({ _userId: req.user.id, fiscalQuarterClosed: `Q${req.params.quarter}` }, null, { sort: { closedOn: 1 } }, function (err, docs) {
+        const allTimeClosedDeals = await ClosedDeal.find({ _userId: req.user.id}, null, { sort: { closedOn: 1 } }, function (err, docs) {
             if (err) return console.error(err);
         })
-        const allTimeLostDeals = await LostDeal.find({ _userId: req.user.id, fiscalQuarterClosed: `Q${req.params.quarter}` }, null, { sort: { closedOn: -1 } }, function (err, docs) {
+        const allTimeLostDeals = await LostDeal.find({ _userId: req.user.id}, null, { sort: { closedOn: -1 } }, function (err, docs) {
             if (err) return console.error(err);
         })
         
         let thisYearsClosedDeals = allTimeClosedDeals.filter(function (obj) {
-            return obj.fiscalYear === currentYear
+            return obj.fiscalYear === req.params.year
         })
 
         let thisYearsLostDeals = allTimeLostDeals.filter(function (obj) {
-        return obj.fiscalYear === currentYear
+        return obj.fiscalYear === req.params.year
         })
 
         let closedDeals = thisYearsClosedDeals.filter(function (obj) {
-            return obj.fiscalQuarterClosed === req.params.quarter
+            return obj.fiscalQuarterClosed === `Q${req.params.quarter}`
         })
 
         let lostDeals = thisYearsLostDeals.filter(function (obj) {
-            return obj.fiscalQuarterClosed === req.params.quarter
+            return obj.fiscalQuarterClosed === `Q${req.params.quarter}`
         })
 
           let closeRateByACV = getCloseRateByACV(allTimeClosedDeals, allTimeLostDeals);
           let closeRateByDeal = getCloseRateByDeal(allTimeClosedDeals, allTimeLostDeals);
           let customerNewSplitByDeal = getCustomerNewSplitByDeal(allTimeClosedDeals, allTimeLostDeals);
           let averageSalesCycleLength = getSalesCycleLength(allTimeClosedDeals, allTimeLostDeals);
+
+          let annualCloseRateByACV = getCloseRateByACV(thisYearsClosedDeals, thisYearsLostDeals);
+          let annualCloseRateByDeal = getCloseRateByDeal(thisYearsClosedDeals, thisYearsLostDeals);
+          let annualCustomerNewSplitByDeal = getCustomerNewSplitByDeal(thisYearsClosedDeals, thisYearsLostDeals);
+          let annualAverageSalesCycleLength = getSalesCycleLength(thisYearsClosedDeals, thisYearsLostDeals);
+
+          let quarterlyCloseRateByACV = getCloseRateByACV(closedDeals, lostDeals);
+          let quarterlyCloseRateByDeal = getCloseRateByDeal(closedDeals, lostDeals);
+          let quarterlyCustomerNewSplitByDeal = getCustomerNewSplitByDeal(closedDeals, lostDeals);
+          let quarterlyAverageSalesCycleLength = getSalesCycleLength(closedDeals, lostDeals);
           
           let closedDealACVArray = getClosedDealACVArray(thisYearsClosedDeals);
           let closedDealNames = getClosedDealNames(thisYearsClosedDeals);
@@ -258,7 +283,7 @@ module.exports = function(app, passport) {
           let wonDealMessage = `Your ${closedDeals.length} Won Deal(s) this quarter:`
           let lostDealMessage = `Your ${lostDeals.length} Lost Deal(s) this quarter:`
     
-          // I need to replace the "262,500" number with a value from the database. Implement user routing first.
+          // Quarterly quota
           let quarterlyQuotaArray = getQuarterlyQuotaArray((req.user.userInfo.quota * 4), closedDealACVArray);
           
           res.render('qbr.ejs', {
@@ -272,12 +297,21 @@ module.exports = function(app, passport) {
             closeRateByDeal: closeRateByDeal,
             customerNewSplitByDeal: customerNewSplitByDeal,
             averageSalesCycleLength: averageSalesCycleLength,
+            annualCloseRateByACV: annualCloseRateByACV,
+            annualCloseRateByDeal: annualCloseRateByDeal,
+            annualCustomerNewSplitByDeal: annualCustomerNewSplitByDeal,
+            annualAverageSalesCycleLength: annualAverageSalesCycleLength,
+            quarterlyCloseRateByACV: quarterlyCloseRateByACV,
+            quarterlyCloseRateByDeal: quarterlyCloseRateByDeal,
+            quarterlyCustomerNewSplitByDeal: quarterlyCustomerNewSplitByDeal,
+            quarterlyAverageSalesCycleLength: quarterlyAverageSalesCycleLength,
             closedDealACVArray: closedDealACVArray,
             closedDealNames: closedDealNames,
             quarterlyQuotaArray: quarterlyQuotaArray,
             newBusinessACVTotal: newBusinessACVTotal,
             existingBusinessACVTotal: existingBusinessACVTotal,
-            currentYear: currentYear
+            currentYear: currentYear,
+            currentQuarter: currentQuarter
             })
     } catch {
         res.send('error')
@@ -287,7 +321,11 @@ module.exports = function(app, passport) {
     // POST route for /year
     app.post('/year', isLoggedIn, function(req, res) {
         currentYear = req.body.year
+        if (req.body.quarter === 'Full Year') {
         res.redirect(`/${currentYear}/qbr`)
+        } else {
+            res.redirect(`/${currentYear}/qbr/quarter/${req.body.quarter}`)
+        }
     })
 
 
@@ -301,7 +339,7 @@ module.exports = function(app, passport) {
 
         // save and redirect to same page
         closedDeal.save().then(item => {
-            res.redirect('/qbr')
+            res.redirect(`/${currentYear}/qbr`)
         })
         .catch(err => {
             res.status(400).send('Unable to save entry to database.');
@@ -317,7 +355,7 @@ module.exports = function(app, passport) {
 
         // save and redirect to same page
         lostDeal.save().then(item => {
-            res.redirect('/qbr')
+            res.redirect(`/${currentYear}/qbr`)
         })
         .catch(err => {
             res.status(400).send('Unable to save entry to database.');

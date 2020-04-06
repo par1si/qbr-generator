@@ -4,7 +4,6 @@
     <div class="hero">
         <div class="hero-subtitle">
             <h2>QBR Generator</h2>
-            <button class="hero-button" id="hero-button"><a href="#closed-won-deal-input">Get Started</a></button>
         </div>
     </div>
 
@@ -16,34 +15,38 @@
                     <option value="FY2021" name="year">FY2021</option>
                     <option value="FY2020" name="year">FY2020</option>
                 </select>
+                <select class="year" name="quarter" autocomplete="off">
+                    <option value="Full Year" name="quarter">Full Year</option>
+                    <option value="1" name="quarter">Q1</option>
+                    <option value="2" name="quarter">Q2</option>
+                    <option value="3" name="quarter">Q3</option>
+                    <option value="4" name="quarter">Q4</option>
+                </select>
                 <button type="submit" class="submit">Submit</button>
             </form>
-                <ul>
-                    <li><a href="/qbr/quarter/1">Q1</a></li>
-                    <li><a href="/qbr/quarter/2">Q2</a></li>
-                    <li><a href="/qbr/quarter/3">Q3</a></li>
-                    <li><a href="/qbr/quarter/4">Q4</a></li>
-                </ul>
         </div>
     </div>
     
 
     <div class="deal-input">
-        <div class="deal-input-container">
-            <form method="post" action="/qbr" class="_form_fields" id="closed-won-deal-input">
+        <div class="deal-input-container" id="closed-won-deal-input">
+            <form method="post" action="/qbr" class="_form_fields">
                 <h1>Submit a Closed-Won deal here:</h1>
                 <%- include('partials/_form_fields.ejs') %>
                 <button type="submit" class="submit">Submit</button>
             </form>
         </div>
+        <button class="submit" id="add-closed-deal-button">Add a Closed Deal</button>
+        
 
-        <div class="deal-input-container">
+        <div class="deal-input-container" id="closed-lost-deal-input">
             <form method="post" action="/qbr/lost" class="_form_fields">
                 <h1>Submit a Closed-Lost deal here:</h1>
                 <%- include('partials/_form_fields_lost.ejs') %>
                 <button type="submit" class="submit">Submit</button>
             </form>
         </div>
+        <button class="submit" id="add-lost-deal-button">Add a Lost Deal</button>
     </div>
 
 
@@ -71,17 +74,27 @@
     </div>
     </div>
 
-    <!-- Add in "This [Time-Period]'s Metrics here, side-by-side -->
-    <%- include('tables/allTimeMetrics.ejs') %>
+    <!-- Metrics on a time-period basis -->
+    <div class="metrics-div">
+        <%- include('tables/allTimeMetrics.ejs') %>
+        <% if (currentYear != undefined) { %>
+        <%- include('tables/annualMetrics.ejs') %>
+        <% } %>
+        <% if (currentQuarter != undefined) { %>
+        <%- include('tables/quarterlyMetrics.ejs') %>
+        <% } %>
+    </div>
 
     <!-- ====================== -->
     <!-- Charts (ignore errors, linter not working) -->
     <!-- ====================== -->
 
     <div class="chart-container">
-        <%- include('charts/ACVPerDeal.ejs') %>
-        <%- include('charts/newVsExistingACV.ejs') %>
+        <!-- include('charts/ACVPerDeal.ejs') -->
+        <!-- include('charts/newVsExistingACV.ejs') -->     
     </div>
+
+    <script src="/js/main.js"></script>
 
 </body>
 </html>

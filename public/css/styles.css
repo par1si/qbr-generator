@@ -47,19 +47,7 @@ button {
 
 .nav-container {
     text-align: center;
-    margin: 5rem 0 2rem 0;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-    color: #000000;
-}
-  
-li {
-    font-size: 24px;
-    display: inline;
-    padding: 1.5rem;
+    margin: 5rem 0 1rem 0;
 }
 
 .container {
@@ -113,8 +101,23 @@ li {
     text-align: center;
 }
 
+#closed-won-deal-input {
+    display: none;
+}
+
+#closed-lost-deal-input {
+    display: none;
+}
+
+#add-closed-deal-button {
+    margin: 0 2rem 0 2rem;
+}
+
+#add-lost-deal-button {
+    margin: 0 2rem 0 2rem;
+}
+
 .deal-input-container {
-    display: inline-flex;
     margin: 3rem;
     text-align: left;
 }
@@ -200,9 +203,19 @@ input[type="date"]
     padding: 2rem;
 }
 
-.metrics-container {
+.metrics-div {
+    margin: 3rem;
     display: block;
-    margin-top: 3rem;
+    text-align: center;
+}
+
+.metrics-container {
+    display: inline;
+    margin: 3rem;
+}
+
+.metrics {
+    display: inline-block;
     text-align: center;
 }
 
