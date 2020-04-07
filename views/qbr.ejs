@@ -10,20 +10,22 @@
     <div class="nav-container">
         <div>
             <h2>Choose your time period:</h2>
-            <form method="POST" action="/year">
-                <select class="year" name="year" autocomplete="off" value="<%= currentYear %>">
-                    <option value="FY2021" name="year">FY2021</option>
-                    <option value="FY2020" name="year">FY2020</option>
-                </select>
-                <select class="year" name="quarter" autocomplete="off">
-                    <option value="Full Year" name="quarter">Full Year</option>
-                    <option value="1" name="quarter">Q1</option>
-                    <option value="2" name="quarter">Q2</option>
-                    <option value="3" name="quarter">Q3</option>
-                    <option value="4" name="quarter">Q4</option>
-                </select>
-                <button type="submit" class="submit">Submit</button>
-            </form>
+            <div class="form-container">
+                <form method="POST" action="/year">
+                    <select class="year" name="year" autocomplete="off" value="<%= currentYear %>">
+                        <option value="FY2021" name="year">FY2021</option>
+                        <option value="FY2020" name="year">FY2020</option>
+                    </select>
+                    <select class="year" name="quarter" autocomplete="off">
+                        <option value="Full Year" name="quarter">Full Year</option>
+                        <option value="1" name="quarter">Q1</option>
+                        <option value="2" name="quarter">Q2</option>
+                        <option value="3" name="quarter">Q3</option>
+                        <option value="4" name="quarter">Q4</option>
+                    </select>
+                    <button type="submit" class="submit" id="time-period-btn">Submit</button>
+                </form>
+            </div>
         </div>
     </div>
     
@@ -36,7 +38,7 @@
                 <button type="submit" class="submit">Submit</button>
             </form>
         </div>
-        <button class="submit" id="add-closed-deal-button">Add a Closed Deal</button>
+        <button class="submit" id="add-closed-deal-button">Add a Deal</button>
         
 
         <div class="deal-input-container" id="closed-lost-deal-input">
@@ -46,7 +48,6 @@
                 <button type="submit" class="submit">Submit</button>
             </form>
         </div>
-        <button class="submit" id="add-lost-deal-button">Add a Lost Deal</button>
     </div>
 
 
