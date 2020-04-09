@@ -10,7 +10,7 @@ function closeRateByDeal (closedDeals, lostDeals) {
     // Get all ACV values from closedDeals & lostDeals Arrays to account for Services only deals
     let wonDealArray = closedDeals.map(({ ACV }) => ACV)
     let lostDealArray = lostDeals.map(({ ACV }) => ACV)
-        return `${((wonDealArray.length / (wonDealArray.length + lostDealArray.length)) * 100).toFixed(2)}%`
+        return ((wonDealArray.length / (wonDealArray.length + lostDealArray.length)) * 100).toFixed(2)
     } else {
         return 0
     }

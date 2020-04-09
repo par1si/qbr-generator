@@ -2,9 +2,28 @@
     <div class="metrics">
         <h1><strong>Quarterly Metrics:</strong></h1>
         <br>
-        <p><strong>Close Rate by deal:</strong> <%= quarterlyCloseRateByDeal %></p>
-        <p><strong>Close Rate by ACV:</strong> <%= quarterlyCloseRateByACV %></p>
-        <p><strong>% of deals that were Expansion:</strong> <%= quarterlyCustomerNewSplitByDeal %></p>
-        <p><strong>Average sales cycle length:</strong> <%= quarterlyAverageSalesCycleLength %> days.</p>
+        <p><strong>Close Rate by deal:</strong> <%= quarterlyCloseRateByDeal %>%, <% if (quarterlyCloseRateByDealDiff <= 0) { %>
+        <span style="color: red"><strong>
+        <% } else { %>
+        <span style="color: green"><strong>+
+        <% } %> <%= quarterlyCloseRateByDealDiff %>%</span></strong></p>
+
+        <p><strong>Close Rate by ACV:</strong> <%= quarterlyCloseRateByACV %>%, <% if (quarterlyCloseRateByACVDiff <= 0) { %>
+        <span style="color: red"><strong>
+        <% } else { %>
+        <span style="color: green"><strong>+
+        <% } %> <strong><%= quarterlyCloseRateByACVDiff %>%</span></strong></p>
+
+        <p><strong>% of deals that were Expansion:</strong> <%= quarterlyCustomerNewSplitByDeal %>%, <% if (quarterlyCustomerNewSplitByDealDiff <= 0) { %>
+        <span style="color: red"><strong>
+        <% } else { %>
+        <span style="color: green"><strong>+    
+        <% } %> <strong><%= quarterlyCustomerNewSplitByDealDiff %>%</span></strong></p>
+
+        <p><strong>Average sales cycle length:</strong> <%= quarterlyAverageSalesCycleLength %> days, <% if (quarterlyAverageSalesCycleLengthDiff >= 0) { %>
+        <span style="color: red"><strong>+
+        <% } else { %>
+        <span style="color: green"><strong>    
+        <% } %> <strong><%= quarterlyAverageSalesCycleLengthDiff %> days</span></strong></p>
     </div>
 </div>

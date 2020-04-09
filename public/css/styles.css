@@ -107,6 +107,14 @@ button {
     text-align: center;
 }
 
+.btn-container {
+    display: block;
+}
+
+.edit-and-remove-btns {
+    display: inline;
+}
+
 #closed-won-deal-input {
     display: none;
 }

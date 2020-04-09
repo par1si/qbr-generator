@@ -2,7 +2,7 @@
     <input type="text" name="companyName" id="company-name" autocomplete="off"  placeholder="e.g. Optimizely, Inc." value="<%= lostDeal.companyName %>">
 <br>
 <label>Quarter Closed-Lost:</label>
-    <select class="quarter-closed" name= "fiscalQuarterClosed" autocomplete="off"  id="quarter-closed" value="<%= lostDeal.fiscalQuarterClosed %>">
+    <select class="quarter-closed" name= "fiscalQuarterClosed" autocomplete="off"  id="quarter-closed">
         <option value="Q1" name="fiscalQuarterClosed" >Q1</option>
         <option value="Q2" name="fiscalQuarterClosed" >Q2</option>
         <option value="Q3" name="fiscalQuarterClosed" >Q3</option>
@@ -10,17 +10,17 @@
     </select>
 <br>
 <label>Closed Out On:</label>
-    <input type="date" name="closedOn" id="closed-on" autocomplete="off" placeholder="e.g. 2/15/2020" value="<%- lostDeal.closedOn.toISOString().split('T')[0] %>">
+    <input type="date" name="closedOn" id="closed-on" autocomplete="off" placeholder="e.g. 2/15/2020">
 <br>
 <label>Deal Type:</label>
-    <select class="deal-type" name= "dealType" id="deal-type" autocomplete="off"  value="<%= lostDeal.dealType %>">
+    <select class="deal-type" name= "dealType" id="deal-type" autocomplete="off">
         <option value="New" name="dealType" >New</option>
         <option value="Horizontal Expansion" name="dealType" >Horizontal Expansion</option>
         <option value="Vertical Expansion" name="dealType" >Vertical Expansion</option>
     </select>
 <br>
 <label>Industry:</label>
-    <select class= "industry" name= "industry" id="industry" autocomplete="off" value="<%= lostDeal.indusry %>">
+    <select class= "industry" name= "industry" id="industry" autocomplete="off">
         <option value="B2B Software" name="industry" >B2B Software</option>
         <option value="Retail/eCommerce" name="industry" >Retail/eCommerce</option>
         <option value="FinServ" name="industry" >FinServ</option>
@@ -32,17 +32,17 @@
     </select>
 <br>
 <label>ACV:</label>
-    <input type="number" name="ACV" id="acv" placeholder="e.g. $100,000" autocomplete="off" value="<%= lostDeal.ACV %>">
+    <input type="number" name="ACV" id="acv" placeholder="e.g. $100,000" autocomplete="off">
 <br>
 <label>Date That The Customer First Engaged:</label>
-    <input type="date" name="dateFirstEngaged" autocomplete="off" id="date-first-engaged" value="<%- lostDeal.dateFirstEngaged.toISOString().split('T')[0] %>">
+    <input type="date" name="dateFirstEngaged" autocomplete="off" id="date-first-engaged">
 <br>
 <label>Executive Involved:</label>
-    <select class= "executive-involved" name= "executiveInvolved" id="executive-involved" autocomplete="off" value="<%= lostDeal.executiveInvolved %>">
+    <select class= "executive-involved" name= "executiveInvolved" id="executive-involved" autocomplete="off">
             <option value="Yes" name="executiveInvolved" selected>Yes</option>
             <option value="No" name="executiveInvolved">No</option>
     </select>
 <br>
 <label>Main Competitor:</label>
-    <input type="text" name="mainCompetitor" id="main-competitor" placeholder="VWO" autocomplete="off" value="<%= lostDeal.mainCompetitor %>">
+    <input type="text" name="mainCompetitor" id="main-competitor" placeholder="VWO" autocomplete="off">
 <br>

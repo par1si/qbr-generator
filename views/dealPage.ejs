@@ -1,22 +1,8 @@
 <%- include('partials/_head.ejs') %>
 <body>
-    <h1><%= closedDeal.companyName %>, <%= closedDeal.termLength %> Year Deal at <%= closedDeal.ACV %>: </h1>
-
-        <div class="closed-deals" id="closed-deals">
-            <div class="closed-deal-name"><p>Company Name = <a href="/<%= closedDeal.id %>"><%= closedDeal.companyName %></a></p></div>
-            <div class="closed-deal-date"> <p> Closed On = <%= closedDeal.closedOn.toLocaleDateString().split('T')[0] %> </p></div>
-            <div class="closed-deal-body"> <p>Term Length = <%= closedDeal.termLength %></p> 
-            <p>ACV = <%= closedDeal.ACV %></p>
-            <p>Multi Year Revenue = <%= closedDeal.multiYearRevenue %></p>
-            <p>Services Hours = <%= closedDeal.servicesHours %></p>
-            <!-- This is where the edit field will go. -->
-            <%- include('partials/editDeal.ejs') %>
-            <%- include('partials/removeDeal.ejs') %>
-            </div>
-            <br>
-            <br>
-        </div>
-    
+    <div class="deal-input">
+        <h1><%= closedDeal.companyName %>, <%= closedDeal.termLength %> Year Deal at <%= closedDeal.ACV %>: </h1>
+                <%- include('partials/editDeal.ejs') %>
     </div>
 </body>
 </html>

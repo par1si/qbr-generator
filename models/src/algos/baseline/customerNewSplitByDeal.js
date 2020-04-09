@@ -17,7 +17,7 @@ function customerNewSplitByDeal (closedDeals, lostDeals) {
                 newDealArray.splice(i, 1)
             }
         }
-        return `${(((dealArray.length - newDealArray.length)/ (newDealArray.length + dealArray.length)) * 100).toFixed(2)}%`
+        return (((dealArray.length - newDealArray.length)/ (newDealArray.length + dealArray.length)) * 100).toFixed(2)
     } else {
         return 0
     }

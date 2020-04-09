@@ -2,9 +2,28 @@
     <div class="metrics">
         <h1><strong>Annual Metrics:</strong></h1>
         <br>
-        <p><strong>Close Rate by deal:</strong> <%= annualCloseRateByDeal %></p>
-        <p><strong>Close Rate by ACV:</strong> <%= annualCloseRateByACV %></p>
-        <p><strong>% of deals that were Expansion:</strong> <%= annualCustomerNewSplitByDeal %></p>
-        <p><strong>Average sales cycle length:</strong> <%= annualAverageSalesCycleLength %> days.</p>
+        <p><strong>Close Rate by deal:</strong> <%= annualCloseRateByDeal %>%, <% if (annualCloseRateByDealDiff <= 0) { %>
+        <span style="color: red"><strong>
+        <% } else { %>
+        <span style="color: green"><strong>+
+        <% } %> <%= annualCloseRateByDealDiff %>%</span></strong></p>
+
+        <p><strong>Close Rate by ACV:</strong> <%= annualCloseRateByACV %>%, <% if (annualCloseRateByACVDiff <= 0) { %>
+        <span style="color: red"><strong>
+        <% } else { %>
+        <span style="color: green"><strong>+
+        <% } %> <strong><%= annualCloseRateByACVDiff %>%</span></strong></p>
+
+        <p><strong>% of deals that were Expansion:</strong> <%= annualCustomerNewSplitByDeal %>%, <% if (annualCustomerNewSplitByDealDiff <= 0) { %>
+        <span style="color: red"><strong>
+        <% } else { %>
+        <span style="color: green"><strong>+    
+        <% } %> <strong><%= annualCustomerNewSplitByDealDiff %>%</span></strong></p>
+
+        <p><strong>Average sales cycle length:</strong> <%= annualAverageSalesCycleLength %> days, <% if (annualAverageSalesCycleLengthDiff >= 0) { %>
+        <span style="color: red"><strong>+
+        <% } else { %>
+        <span style="color: green"><strong>    
+        <% } %> <strong><%= annualAverageSalesCycleLengthDiff %> days</span></strong></p>
     </div>
 </div>

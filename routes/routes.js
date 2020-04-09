@@ -161,16 +161,21 @@ module.exports = function(app, passport) {
           let customerNewSplitByDeal = getCustomerNewSplitByDeal(allTimeClosedDeals, allTimeLostDeals);
           let averageSalesCycleLength = getSalesCycleLength(allTimeClosedDeals);
 
+          // Values to calculate annual algos
           let annualCloseRateByACV = getCloseRateByACV(closedDeals, lostDeals);
           let annualCloseRateByDeal = getCloseRateByDeal(closedDeals, lostDeals);
           let annualCustomerNewSplitByDeal = getCustomerNewSplitByDeal(closedDeals, lostDeals);
           let annualAverageSalesCycleLength = getSalesCycleLength(closedDeals, lostDeals);
+
+          // Diff btwn annual/all-time algos
+          let annualCloseRateByACVDiff = (annualCloseRateByACV - closeRateByACV).toFixed(2)
+          let annualCloseRateByDealDiff = (annualCloseRateByDeal - closeRateByDeal).toFixed(2)
+          let annualCustomerNewSplitByDealDiff = (annualCustomerNewSplitByDeal - customerNewSplitByDeal).toFixed(2)
+          let annualAverageSalesCycleLengthDiff = (annualAverageSalesCycleLength - averageSalesCycleLength)
           
           // Charting values for ACV Per Deal chart
           let closedDealACVArray = getClosedDealACVArray(closedDeals);
           let closedDealNames = getClosedDealNames(closedDeals);
-
-          // These functions are still broken if there are no existing business deals closed.
           let newBusinessACVTotal = getNewBusinessACVTotal(closedDeals);
           let existingBusinessACVTotal = getExistingBusinessACVTotal(closedDeals);
     
@@ -182,12 +187,15 @@ module.exports = function(app, passport) {
 
           
           res.render('qbr.ejs', {
+            // Deal Array Variables
             closedDeals: closedDeals,
             closedDeal: new ClosedDeal,
             lostDeals: lostDeals,
             lostDeal: new LostDeal,
+            // Deal Messages
             wonDealMessage: wonDealMessage,
             lostDealMessage: lostDealMessage,
+            // Variables computed by algorithms to display metrics
             closeRateByACV: closeRateByACV,
             closeRateByDeal: closeRateByDeal,
             customerNewSplitByDeal: customerNewSplitByDeal,
@@ -196,12 +204,20 @@ module.exports = function(app, passport) {
             annualCloseRateByDeal: annualCloseRateByDeal,
             annualCustomerNewSplitByDeal: annualCustomerNewSplitByDeal,
             annualAverageSalesCycleLength: annualAverageSalesCycleLength,
+            // Variables for diff in annual/all-time metrics
+            annualCloseRateByACVDiff: annualCloseRateByACVDiff,
+            annualCloseRateByDealDiff: annualCloseRateByDealDiff,
+            annualCustomerNewSplitByDealDiff: annualCustomerNewSplitByDealDiff,
+            annualAverageSalesCycleLengthDiff: annualAverageSalesCycleLengthDiff,
+            // Variables necessary for charting
             closedDealACVArray: closedDealACVArray,
             closedDealNames: closedDealNames,
             quarterlyQuotaArray: quarterlyQuotaArray,
             newBusinessACVTotal: newBusinessACVTotal,
             existingBusinessACVTotal: existingBusinessACVTotal,
-            currentYear: currentYear
+            // Variable for routing to :year
+            currentYear: currentYear,
+
             })
         } catch {
             res.send('error')
@@ -212,6 +228,7 @@ module.exports = function(app, passport) {
     app.get('/:id', isLoggedIn, async (req, res) => {
         try {
         const closedDeal = await ClosedDeal.findById(req.params.id)
+        console.log(closedDeal.closedOn.toISOString().split('T')[0])
         res.render('dealPage.ejs', {
             closedDeal: closedDeal
         })
@@ -242,7 +259,7 @@ module.exports = function(app, passport) {
         const allTimeLostDeals = await LostDeal.find({ _userId: req.user.id}, null, { sort: { closedOn: -1 } }, function (err, docs) {
             if (err) return console.error(err);
         })
-        
+        // Filter closed deals to only display the deals closed this fiscal year. Do this with
         let thisYearsClosedDeals = allTimeClosedDeals.filter(function (obj) {
             return obj.fiscalYear === req.params.year
         })
@@ -250,7 +267,7 @@ module.exports = function(app, passport) {
         let thisYearsLostDeals = allTimeLostDeals.filter(function (obj) {
         return obj.fiscalYear === req.params.year
         })
-
+        // Filter closed deals to only display the deals closed this fiscal quarter. Do this with
         let closedDeals = thisYearsClosedDeals.filter(function (obj) {
             return obj.fiscalQuarterClosed === `Q${req.params.quarter}`
         })
@@ -258,41 +275,60 @@ module.exports = function(app, passport) {
         let lostDeals = thisYearsLostDeals.filter(function (obj) {
             return obj.fiscalQuarterClosed === `Q${req.params.quarter}`
         })
+            
+        let wonDealMessage = `Your ${closedDeals.length} Won Deal(s) this quarter:`
+        let lostDealMessage = `Your ${lostDeals.length} Lost Deal(s) this quarter:`
 
-          let closeRateByACV = getCloseRateByACV(allTimeClosedDeals, allTimeLostDeals);
-          let closeRateByDeal = getCloseRateByDeal(allTimeClosedDeals, allTimeLostDeals);
-          let customerNewSplitByDeal = getCustomerNewSplitByDeal(allTimeClosedDeals, allTimeLostDeals);
-          let averageSalesCycleLength = getSalesCycleLength(allTimeClosedDeals, allTimeLostDeals);
+        // Values to calculate all-time algos
+        let closeRateByACV = getCloseRateByACV(allTimeClosedDeals, allTimeLostDeals);
+        let closeRateByDeal = getCloseRateByDeal(allTimeClosedDeals, allTimeLostDeals);
+        let customerNewSplitByDeal = getCustomerNewSplitByDeal(allTimeClosedDeals, allTimeLostDeals);
+        let averageSalesCycleLength = getSalesCycleLength(allTimeClosedDeals);
 
-          let annualCloseRateByACV = getCloseRateByACV(thisYearsClosedDeals, thisYearsLostDeals);
-          let annualCloseRateByDeal = getCloseRateByDeal(thisYearsClosedDeals, thisYearsLostDeals);
-          let annualCustomerNewSplitByDeal = getCustomerNewSplitByDeal(thisYearsClosedDeals, thisYearsLostDeals);
-          let annualAverageSalesCycleLength = getSalesCycleLength(thisYearsClosedDeals, thisYearsLostDeals);
+        // Values to calculate annual algos
+        let annualCloseRateByACV = getCloseRateByACV(thisYearsClosedDeals, thisYearsLostDeals);
+        let annualCloseRateByDeal = getCloseRateByDeal(thisYearsClosedDeals, thisYearsLostDeals);
+        let annualCustomerNewSplitByDeal = getCustomerNewSplitByDeal(thisYearsClosedDeals, thisYearsLostDeals);
+        let annualAverageSalesCycleLength = getSalesCycleLength(thisYearsClosedDeals, thisYearsLostDeals);
 
-          let quarterlyCloseRateByACV = getCloseRateByACV(closedDeals, lostDeals);
-          let quarterlyCloseRateByDeal = getCloseRateByDeal(closedDeals, lostDeals);
-          let quarterlyCustomerNewSplitByDeal = getCustomerNewSplitByDeal(closedDeals, lostDeals);
-          let quarterlyAverageSalesCycleLength = getSalesCycleLength(closedDeals, lostDeals);
-          
-          let closedDealACVArray = getClosedDealACVArray(thisYearsClosedDeals);
-          let closedDealNames = getClosedDealNames(thisYearsClosedDeals);
-          let newBusinessACVTotal = getNewBusinessACVTotal(thisYearsClosedDeals);
-          let existingBusinessACVTotal = getExistingBusinessACVTotal(thisYearsClosedDeals); 
-    
-          // Won & Lost deal messages:
-          let wonDealMessage = `Your ${closedDeals.length} Won Deal(s) this quarter:`
-          let lostDealMessage = `Your ${lostDeals.length} Lost Deal(s) this quarter:`
-    
-          // Quarterly quota
-          let quarterlyQuotaArray = getQuarterlyQuotaArray((req.user.userInfo.quota * 4), closedDealACVArray);
-          
-          res.render('qbr.ejs', {
+        // Values to calculate quarterly algos
+        let quarterlyCloseRateByACV = getCloseRateByACV(closedDeals, lostDeals);
+        let quarterlyCloseRateByDeal = getCloseRateByDeal(closedDeals, lostDeals);
+        let quarterlyCustomerNewSplitByDeal = getCustomerNewSplitByDeal(closedDeals, lostDeals);
+        let quarterlyAverageSalesCycleLength = getSalesCycleLength(closedDeals, lostDeals);
+
+        // Diff btwn annual/all-time algos
+        let annualCloseRateByACVDiff = (annualCloseRateByACV - closeRateByACV).toFixed(2)
+        let annualCloseRateByDealDiff = (annualCloseRateByDeal - closeRateByDeal).toFixed(2)
+        let annualCustomerNewSplitByDealDiff = (annualCustomerNewSplitByDeal - customerNewSplitByDeal).toFixed(2)
+        let annualAverageSalesCycleLengthDiff = (annualAverageSalesCycleLength - averageSalesCycleLength)
+
+        // Diff between quarterly/all-time algos
+        let quarterlyCloseRateByACVDiff = (quarterlyCloseRateByACV - closeRateByACV).toFixed(2)
+        let quarterlyCloseRateByDealDiff = (quarterlyCloseRateByDeal - closeRateByDeal).toFixed(2)
+        let quarterlyCustomerNewSplitByDealDiff = (quarterlyCustomerNewSplitByDeal - customerNewSplitByDeal).toFixed(2)
+        let quarterlyAverageSalesCycleLengthDiff = (quarterlyAverageSalesCycleLength - averageSalesCycleLength)
+
+        
+        // Charting values for ACV Per Deal chart
+        let closedDealACVArray = getClosedDealACVArray(thisYearsClosedDeals);
+        let closedDealNames = getClosedDealNames(thisYearsClosedDeals);
+        let newBusinessACVTotal = getNewBusinessACVTotal(thisYearsClosedDeals);
+        let existingBusinessACVTotal = getExistingBusinessACVTotal(thisYearsClosedDeals); 
+
+        // Quarterly quota
+        let quarterlyQuotaArray = getQuarterlyQuotaArray((req.user.userInfo.quota * 4), closedDealACVArray);
+        
+            res.render('qbr.ejs', {
+            // Deal Array Variables
             closedDeals: closedDeals,
             closedDeal: new ClosedDeal,
             lostDeals: lostDeals,
             lostDeal: new LostDeal,
+            // Deal Messages
             wonDealMessage: wonDealMessage,
             lostDealMessage: lostDealMessage,
+            // Variables computed by algorithms to display metrics
             closeRateByACV: closeRateByACV,
             closeRateByDeal: closeRateByDeal,
             customerNewSplitByDeal: customerNewSplitByDeal,
@@ -305,11 +341,22 @@ module.exports = function(app, passport) {
             quarterlyCloseRateByDeal: quarterlyCloseRateByDeal,
             quarterlyCustomerNewSplitByDeal: quarterlyCustomerNewSplitByDeal,
             quarterlyAverageSalesCycleLength: quarterlyAverageSalesCycleLength,
+            // Variables for diff in quarterly/annual/all-time metrics
+            annualCloseRateByACVDiff: annualCloseRateByACVDiff,
+            annualCloseRateByDealDiff: annualCloseRateByDealDiff,
+            annualCustomerNewSplitByDealDiff: annualCustomerNewSplitByDealDiff,
+            annualAverageSalesCycleLengthDiff: annualAverageSalesCycleLengthDiff,
+            quarterlyCloseRateByACVDiff: quarterlyCloseRateByACVDiff,
+            quarterlyCloseRateByDealDiff: quarterlyCloseRateByDealDiff,
+            quarterlyCustomerNewSplitByDealDiff: quarterlyCustomerNewSplitByDealDiff,
+            quarterlyAverageSalesCycleLengthDiff: quarterlyAverageSalesCycleLengthDiff,
+            // Variables necessary for charting
             closedDealACVArray: closedDealACVArray,
             closedDealNames: closedDealNames,
             quarterlyQuotaArray: quarterlyQuotaArray,
             newBusinessACVTotal: newBusinessACVTotal,
             existingBusinessACVTotal: existingBusinessACVTotal,
+            // Variables for routing
             currentYear: currentYear,
             currentQuarter: currentQuarter
             })
