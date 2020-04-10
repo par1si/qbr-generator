@@ -458,6 +458,7 @@ module.exports = function(app, passport) {
             lostDeal.dateFirstEngaged = req.body.dateFirstEngaged
             lostDeal.mainCompetitor = req.body.mainCompetitor
             lostDeal.closedOn = req.body.closedOn
+            lostDeal.fiscalQuarterClosed = req.body.fiscalQuarterClosed
             lostDeal.fiscalYear = lostDeal.getFiscalYear(lostDeal.closedOn)
           await lostDeal.save()
           res.redirect(`/${currentYear}/qbr`)
