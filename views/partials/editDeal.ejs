@@ -1,15 +1,14 @@
-<form action="/<%= closedDeal.id %>?_method=PUT" method="POST">
-    <div class="form-fields">
-        <br>
-    <%- include('_form_fields') %>
-        <div class="btn-container">
-            <div class="edit-and-remove-btns">
+<div class="btn-container">
+        <form action="/<%= closedDeal.id %>?_method=PUT" method="POST">
+            <div class="form-fields">
                 <br>
-                <button type="submit" class="submit">Update</button>
-                <form method="POST" action="/<%= closedDeal.id %>?_method=DELETE">
-                    <button type="submit" class="submit">Delete</button>
-                </form>
+            <%- include('_form_fields') %>
+                    <br>
+                    <button type="submit" class="submit">Update</button>
             </div>
-        </div>
-    </div>
-</form>
+        </form>
+        <form method="POST" action="/<%= closedDeal.id %>?_method=DELETE">
+            <br>
+                <button type="submit" class="submit">Delete</button>
+        </form>
+</div>

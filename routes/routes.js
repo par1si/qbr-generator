@@ -228,7 +228,6 @@ module.exports = function(app, passport) {
     app.get('/:id', isLoggedIn, async (req, res) => {
         try {
         const closedDeal = await ClosedDeal.findById(req.params.id)
-        console.log(closedDeal.closedOn.toISOString().split('T')[0])
         res.render('dealPage.ejs', {
             closedDeal: closedDeal
         })
@@ -441,7 +440,7 @@ module.exports = function(app, passport) {
             closedDeal.mainCompetitor = req.body.mainCompetitor
             closedDeal.fiscalYear = closedDeal.getFiscalYear(closedDeal.closedOn)
         await closedDeal.save()
-        res.redirect(`/${closedDeal.id}`)
+        res.redirect(`/${currentYear}/qbr`)
         } catch {
         res.send('Error updating deal.')
         }

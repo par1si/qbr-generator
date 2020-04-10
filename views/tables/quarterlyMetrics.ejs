@@ -12,18 +12,18 @@
         <span style="color: red"><strong>
         <% } else { %>
         <span style="color: green"><strong>+
-        <% } %> <strong><%= quarterlyCloseRateByACVDiff %>%</span></strong></p>
+        <% } %> <%= quarterlyCloseRateByACVDiff %>%</span></strong></p>
 
         <p><strong>% of deals that were Expansion:</strong> <%= quarterlyCustomerNewSplitByDeal %>%, <% if (quarterlyCustomerNewSplitByDealDiff <= 0) { %>
         <span style="color: red"><strong>
         <% } else { %>
         <span style="color: green"><strong>+    
-        <% } %> <strong><%= quarterlyCustomerNewSplitByDealDiff %>%</span></strong></p>
+        <% } %> <%= quarterlyCustomerNewSplitByDealDiff %>%</span></strong></p>
 
         <p><strong>Average sales cycle length:</strong> <%= quarterlyAverageSalesCycleLength %> days, <% if (quarterlyAverageSalesCycleLengthDiff >= 0) { %>
         <span style="color: red"><strong>+
         <% } else { %>
         <span style="color: green"><strong>    
-        <% } %> <strong><%= quarterlyAverageSalesCycleLengthDiff %> days</span></strong></p>
+        <% } %> <%= quarterlyAverageSalesCycleLengthDiff %> days</span></strong></p>
     </div>
 </div>
