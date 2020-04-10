@@ -10,7 +10,7 @@
     </select>
 <br>
 <label>Closed Out On:</label>
-    <input type="date" name="closedOn" id="closed-on" autocomplete="off" placeholder="e.g. 2/15/2020" value="<%- lostDeal.closedOn.toISOString().split('T')[0] %>">
+    <input type="date" name="closedOn" id="closed-on" autocomplete="off" placeholder="e.g. 2/15/2020" value=""><!-- lostDeal.closedOn.toISOString().split('T')[0] -->
 <br>
 <label>Deal Type:</label>
     <select class="deal-type" name= "dealType" id="deal-type" autocomplete="off"  value="<%= lostDeal.dealType %>">

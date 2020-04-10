@@ -1,7 +1,8 @@
 <%- include('partials/_head.ejs') %>
+<%- include('partials/nav.ejs') %>
 <body>
     <div class="deal-input">
-        <h1><%= lostDeal.companyName %>, <%= lostDeal.termLength %> Year Deal at <%= lostDeal.ACV %>: </h1>
+        <h1><%= lostDeal.companyName %>, <%= lostDeal.termLength %> Year Deal at $<%= lostDeal.ACV.toLocaleString() %>: </h1>
             <%- include('partials/editLostDeal.ejs') %>
     </div>
 </body>

@@ -5,10 +5,11 @@
             <div class="edit-and-remove-btns">
                 <br>
                 <button type="submit" class="submit">Update</button>
-                <form method="POST" action="/<%= lostDeal.id %>?_method=DELETE">
-                    <button type="submit" class="submit">Delete</button>
-                </form>
             </div>
         </div>
     </div>
+</form>
+<form method="POST" action="/<%= lostDeal.id %>?_method=DELETE">
+    <br>
+    <button type="submit" class="submit">Delete</button>
 </form>
