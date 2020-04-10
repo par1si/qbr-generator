@@ -48,6 +48,19 @@ app.use(methodOverride('_method'));
 // routes ======================================================================
 require('./routes/routes')(app, passport); // load our routes and pass in our app and fully configured passport
 
+// 404 routing
+app.use(function(req, res, next){
+    res.status(404);
+  
+    // respond with html page
+    if (req.accepts('html')) {
+      res.render('404', { url: req.url });
+      return;
+    } else {
+        res.redirect('/')
+    }
+});
+
 // launch ======================================================================
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}.`)

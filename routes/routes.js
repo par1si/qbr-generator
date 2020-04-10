@@ -127,7 +127,7 @@ module.exports = function(app, passport) {
             currentQuarter: currentQuarter
             })
         } catch {
-            res.send('error')
+            res.render('404')
         }
     })
 
@@ -220,7 +220,7 @@ module.exports = function(app, passport) {
 
             })
         } catch {
-            res.send('error')
+            res.render('404')
         }
     })
 
@@ -232,7 +232,7 @@ module.exports = function(app, passport) {
             closedDeal: closedDeal
         })
         } catch {
-        res.redirect('/')
+        res.render('404')
         }
     });
     
@@ -244,7 +244,7 @@ module.exports = function(app, passport) {
             lostDeal: lostDeal
         })
         } catch {
-        res.redirect('/')
+        res.render('404')
         }
     });
 
@@ -360,7 +360,7 @@ module.exports = function(app, passport) {
             currentQuarter: currentQuarter
             })
     } catch {
-        res.send('error')
+        res.render('404')
     }
     })
 
@@ -382,13 +382,14 @@ module.exports = function(app, passport) {
         // set userId on closedDeal
         closedDeal._userId = req.user.id
         closedDeal.fiscalYear = closedDeal.getFiscalYear(closedDeal.closedOn)
+        closedDeal.fiscalQuarterClosed = closedDeal.getFiscalQuarter(closedDeal.closedOn)
 
         // save and redirect to same page
         closedDeal.save().then(item => {
             res.redirect(`/${currentYear}/qbr`)
         })
         .catch(err => {
-            res.status(400).send('Unable to save entry to database.');
+            console.log('Unable to save entry to database.');
         });
     })
 
@@ -398,13 +399,14 @@ module.exports = function(app, passport) {
         // set userId on lostDeal
         lostDeal._userId = req.user.id
         lostDeal.fiscalYear = lostDeal.getFiscalYear(lostDeal.closedOn)
+        lostDeal.fiscalQuarterClosed = lostDeal.getFiscalQuarter(lostDeal.closedOn)
 
         // save and redirect to same page
         lostDeal.save().then(item => {
             res.redirect(`/${currentYear}/qbr`)
         })
         .catch(err => {
-            res.status(400).send('Unable to save entry to database.');
+            console.log('Unable to save entry to database.');
         });
     })
 
@@ -418,7 +420,7 @@ module.exports = function(app, passport) {
         await user.save()
         res.redirect(`/profile`)
         } catch {
-        res.send('Error updating user.')
+        res.render('404')
         }
     })
 
@@ -428,7 +430,6 @@ module.exports = function(app, passport) {
         try {
         closedDeal = await ClosedDeal.findById(req.params.id)
             closedDeal.companyName = req.body.companyName
-            closedDeal.fiscalQuarterClosed = req.body.fiscalQuarterClosed
             closedDeal.industry = req.body.industry
             closedDeal.dealType = req.body.dealType
             closedDeal.termLength = req.body.termLength
@@ -438,11 +439,12 @@ module.exports = function(app, passport) {
             closedDeal.closedOn = req.body.closedOn
             closedDeal.dateFirstEngaged = req.body.dateFirstEngaged
             closedDeal.mainCompetitor = req.body.mainCompetitor
+            closedDeal.fiscalQuarterClosed = closedDeal.getFiscalQuarter(closedDeal.closedOn)
             closedDeal.fiscalYear = closedDeal.getFiscalYear(closedDeal.closedOn)
         await closedDeal.save()
         res.redirect(`/${currentYear}/qbr`)
         } catch {
-        res.send('Error updating deal.')
+        res.render('404')
         }
     });
 
@@ -458,12 +460,12 @@ module.exports = function(app, passport) {
             lostDeal.dateFirstEngaged = req.body.dateFirstEngaged
             lostDeal.mainCompetitor = req.body.mainCompetitor
             lostDeal.closedOn = req.body.closedOn
-            lostDeal.fiscalQuarterClosed = req.body.fiscalQuarterClosed
+            lostDeal.fiscalQuarterClosed = lostDeal.getFiscalQuarter(lostDeal.closedOn)
             lostDeal.fiscalYear = lostDeal.getFiscalYear(lostDeal.closedOn)
           await lostDeal.save()
           res.redirect(`/${currentYear}/qbr`)
         } catch {
-          res.send('Error updating deal.')
+          res.render('404')
         }
       });
 
@@ -473,13 +475,13 @@ module.exports = function(app, passport) {
         try {
         closedDeal = await ClosedDeal.findById(req.params.id)
         await closedDeal.remove()
-        res.redirect('/')
+        res.redirect(`${currentYear}/qbr`)
         } catch {
         if (closedDeal == null) {
-            res.redirect('/')
+            res.render('404')
             console.log('Deal does not exist.')
         } else {
-            res.send(`Something went wrong.`)
+            res.render('404')
         }
         }
     });
@@ -490,13 +492,13 @@ module.exports = function(app, passport) {
         try {
         lostDeal = await LostDeal.findById(req.params.id)
         await lostDeal.remove()
-        res.redirect('/')
+        res.redirect(`${currentYear}/qbr`)
         } catch {
         if (lostDeal == null) {
-            res.redirect('/')
+            res.render('404')
             console.log('Deal does not exist.')
         } else {
-            res.send(`Something went wrong.`)
+            res.render('404')
         }
         }
     });

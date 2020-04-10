@@ -1,14 +1,6 @@
 <label>Company Name:</label>
     <input type="text" name="companyName" id="company-name" placeholder="e.g. Optimizely, Inc." autocomplete="off" value="<%= closedDeal.companyName %>">
 <br>
-<label>Quarter Closed:</label>
-    <select class="quarter-closed" name= "fiscalQuarterClosed" id="quarter-closed" autocomplete="off" value="<%= closedDeal.fiscalQuarterClosed %>">
-        <option value="Q1" name="fiscalQuarterClosed" >Q1</option>
-        <option value="Q2" name="fiscalQuarterClosed" >Q2</option>
-        <option value="Q3" name="fiscalQuarterClosed" >Q3</option>
-        <option value="Q4" name="fiscalQuarterClosed" selected>Q4</option>
-    </select>
-<br>
 <label>Deal Type:</label>
     <select class="deal-type" name= "dealType" id="deal-type" autocomplete="off"  value="<%= closedDeal.dealType %>">
         <option value="New" name="dealType" >New</option>
