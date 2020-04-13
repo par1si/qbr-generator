@@ -1,6 +1,6 @@
 var d = new Date('2020-02-01T00:00:00.000Z')
 
-d.setHours(25)
+d.setHours(23)
 
 console.log(d)
 

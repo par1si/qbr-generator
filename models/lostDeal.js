@@ -51,11 +51,14 @@ lostDealSchema.methods.getFiscalYear = function(date) {
 };
 
 lostDealSchema.methods.getFiscalQuarter = function(date) {
-    date.setHours(25)
+    date.setHours(24)
     var m = date.getMonth() + 1;
     var q = Math.floor(((m - 2) / 3) + 1)
+    if (q < 1) {
+        return `Q4`
+    } else {
         return `Q${q}`
-    
+    }
 };
 
 module.exports = mongoose.model('LostDeal', lostDealSchema);

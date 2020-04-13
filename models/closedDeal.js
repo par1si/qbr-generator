@@ -61,7 +61,7 @@ closedDealSchema.methods.getFiscalYear = function(date) {
 };
 
 closedDealSchema.methods.getFiscalQuarter = function(date) {
-    date.setHours(25)
+    date.setHours(24)
     var m = date.getMonth() + 1;
     var q = Math.floor(((m - 2) / 3) + 1)
     if (q < 1) {
