@@ -24,7 +24,7 @@
     </select>
 <br>
 <label>ACV:</label>
-    <input type="number" name="ACV" id="acv" placeholder="e.g. $100,000" autocomplete="off" value="<%= lostDeal.ACV %>">
+    <input type="number" name="ACV" id="acv" placeholder="e.g. $100,000" autocomplete="off" value="<%= lostDeal.ACV %>" required>
 <br>
 <label>Date That The Customer First Engaged:</label>
     <input type="date" name="dateFirstEngaged" autocomplete="off" id="date-first-engaged" value="<%- lostDeal.dateFirstEngaged.toISOString().split('T')[0] %>">
